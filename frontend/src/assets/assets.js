@@ -13,7 +13,7 @@ export const products = [
         description: "Ideal pa’ trabajar, jugar, dormir...",
         price: 300000,
         image: [sillagamer],
-        category: "Sillas",
+        category: "Muebles",
         bestSeller: true,
         stock: 2,
         ventas: 10

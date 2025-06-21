@@ -35,10 +35,22 @@ const Navbar = () => {
                         <div className="group relative cursor-pointer">
                             Categorías ▾
                             <div className="group-hover:block hidden absolute dropdown-menu right-0 pt-4 z-10">
-                                <div className="flex flex-col gap-2 w-36 py-3 px-5 bg-slate-100 text-gray-500 rounded">
-                                    <p className="cursor-pointer hover:text-black"> Sillas </p>
-                                    <p className="cursor-pointer hover:text-black"> Mesas </p>
-                                    <p className="cursor-pointer hover:text-black"> Oficina </p>
+                                <div className="flex flex-col gap-2 w-40 py-3 px-5 bg-slate-100 text-gray-500 rounded">
+                                    <Link to="/categoria/Tecnologia" className="cursor-pointer hover:text-black">Tecnología</Link>
+                                    <Link to="/categoria/Electrodomesticos" className="cursor-pointer hover:text-black">Electrodomésticos</Link>
+                                    <Link to="/categoria/Hogar" className="cursor-pointer hover:text-black">Hogar</Link>
+                                    <Link to="/categoria/Oficina" className="cursor-pointer hover:text-black">Oficina</Link>
+                                    <Link to="/categoria/Decoracion" className="cursor-pointer hover:text-black">Decoración</Link>
+                                    <Link to="/categoria/Muebles" className="cursor-pointer hover:text-black">Muebles</Link>
+                                    <Link to="/categoria/Salud" className="cursor-pointer hover:text-black">Salud</Link>
+                                    <Link to="/categoria/Ropa" className="cursor-pointer hover:text-black">Ropa</Link>
+                                    <Link to="/categoria/Aseo" className="cursor-pointer hover:text-black">Aseo</Link>
+                                    <Link to="/categoria/Papeleria" className="cursor-pointer hover:text-black">Papelería</Link>
+                                    <Link to="/categoria/Jugueteria" className="cursor-pointer hover:text-black">Juguetería</Link>
+                                    <Link to="/categoria/Herramientas" className="cursor-pointer hover:text-black">Herramientas</Link>
+                                    <Link to="/categoria/Cocina" className="cursor-pointer hover:text-black">Cocina</Link>
+                                    <Link to="/categoria/Iluminacion" className="cursor-pointer hover:text-black">Iluminación</Link>
+                                    <Link to="/categoria/Mascotas" className="cursor-pointer hover:text-black">Mascotas</Link>
                                 </div>
                             </div>
                         </div>
