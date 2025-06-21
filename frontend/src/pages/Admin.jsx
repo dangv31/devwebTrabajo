@@ -41,9 +41,11 @@ function Admin() {
             </button>
         </Link>
 
+        <Link to="/admin/ordenes">
             <button className="flex items-center gap-2 bg-[#7D7D7D] text-white px-4 py-2 cursor-pointer rounded hover:bg-[#6A6A6A]">
                 <FaClipboardList className="text-white" /> Ver Órdenes
             </button>
+        </Link>
         </div>
 
     </div>
