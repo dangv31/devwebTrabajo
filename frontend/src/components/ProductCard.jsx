@@ -4,7 +4,7 @@ const ProductCard = ({ product }) => {
     const tieneDescuento = product.oldPrice && product.oldPrice > product.price;
 
     return (
-        <div className="border border-gray-400 rounded-lg shadow-lg bg-white p-4 flex flex-col items-center">
+        <div className="border border-gray-400 rounded-lg shadow-lg bg-white p-4 flex flex-col items-center h-70">
             <img
                 src={product.image[0]}
                 alt={product.name}

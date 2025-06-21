@@ -10,20 +10,20 @@ import VerOrdenes from './pages/VerOrdenes';
 import Admin from './pages/Admin';
 import AgregarProducto from './pages/AgregarProducto';
 import VerProductos from './pages/VerProductos';
-import CollectionCategory from "./pages/CollectionCategory.jsx";
-import SearchResults from "./pages/SearchResults.jsx";
+import Collection from "./pages/Collection.jsx";
+import SearchBar from "./components/SearchBar.jsx";
 
 const App = () => {
     return (
         <div className="px-4 sm:px-[5vm] md:px-[7vw] lg:px-[9vw] ">
             <Navbar/>
+            <SearchBar/>
             <Routes>
                 <Route path="/" element={<Home/>} />
-                <Route path="/categoria/:nombre" element={<CollectionCategory />} />
+                <Route path="/products" element={<Collection />} />
                 <Route path="/product/:productId" element={<Product/>} />
                 <Route path="/cart" element={<Cart/>} />
                 <Route path="/login" element={<Login/>} />
-                <Route path="/buscar" element={<SearchResults />} />
 
 
                 <Route path="/admin" element={<Admin />} />
