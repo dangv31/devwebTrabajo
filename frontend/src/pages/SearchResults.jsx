@@ -11,8 +11,9 @@ const SearchResults = () => {
     const { products } = useContext(ShopContext);
 
     const result = products.filter(product =>
-        product.name.toLowerCase().includes(query) ||
-        product.description.toLowerCase().includes(query)
+        (product.name.toLowerCase().includes(query) ||
+            product.description.toLowerCase().includes(query)) &&
+        product.stock > -4
     );
 
     let recommendations = [];
@@ -23,7 +24,7 @@ const SearchResults = () => {
 
         if (category) {
             recommendations = products.filter(
-                p => p.category === category
+                p => p.category === category && p.stock > -2
             );
         }
     }

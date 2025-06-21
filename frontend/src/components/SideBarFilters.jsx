@@ -1,6 +1,6 @@
 import React from "react";
 
-const SidebarFilters = ({ filters, setFilters }) => {
+const SidebarFilters = ({ filters, setFilters, showCat = true }) => {
     const handleCheckboxChange = (section, value) => {
         setFilters(prev => {
             const updated = new Set(prev[section]);
@@ -51,9 +51,14 @@ const SidebarFilters = ({ filters, setFilters }) => {
             </div>
 
             {/* Categorías */}
-            <div>
+            {showCat &&
+                <div>
                 <h3 className="font-semibold mb-1">Categorías</h3>
-                {["Oficina", "Muebles", "Sillas"].map((cat) => (
+                {[
+                    "Tecnología", "Electrodomésticos", "Hogar", "Oficina", "Decoración",
+                    "Muebles", "Salud", "Ropa", "Aseo", "Papelería", "Juguetería",
+                    "Herramientas", "Cocina", "Iluminación", "Mascotas"
+                ].map((cat) => (
                     <label key={cat} className="flex items-center gap-2">
                         <input
                             type="checkbox"
@@ -63,7 +68,7 @@ const SidebarFilters = ({ filters, setFilters }) => {
                         {cat}
                     </label>
                 ))}
-            </div>
+            </div>}
         </div>
     );
 };
