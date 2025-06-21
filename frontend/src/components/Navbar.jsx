@@ -35,7 +35,7 @@ const Navbar = () => {
                         <div className="group relative cursor-pointer">
                             Categorías ▾
                             <div className="group-hover:block hidden absolute dropdown-menu right-0 pt-4 z-10">
-                                <div className="flex flex-col gap-2 w-36 py-3 px-5 bg-slate-100 text-gray-500 rounded">
+                                <div className="flex flex-col gap-2 w-40 py-3 px-5 bg-slate-100 text-gray-500 rounded">
                                     <Link to="/categoria/Tecnologia" className="cursor-pointer hover:text-black">Tecnología</Link>
                                     <Link to="/categoria/Electrodomesticos" className="cursor-pointer hover:text-black">Electrodomésticos</Link>
                                     <Link to="/categoria/Hogar" className="cursor-pointer hover:text-black">Hogar</Link>
@@ -51,7 +51,6 @@ const Navbar = () => {
                                     <Link to="/categoria/Cocina" className="cursor-pointer hover:text-black">Cocina</Link>
                                     <Link to="/categoria/Iluminacion" className="cursor-pointer hover:text-black">Iluminación</Link>
                                     <Link to="/categoria/Mascotas" className="cursor-pointer hover:text-black">Mascotas</Link>
-
                                 </div>
                             </div>
                         </div>
