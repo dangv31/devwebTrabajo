@@ -5,7 +5,9 @@ import Product from "./pages/Product.jsx";
 import Cart from "./pages/Cart.jsx";
 import Login from "./pages/Login.jsx";
 import Navbar from "./components/Navbar.jsx";
+
 import Admin from './pages/Admin';
+import AgregarProducto from './pages/AgregarProducto';
 
 const App = () => {
     return (
@@ -16,7 +18,10 @@ const App = () => {
                 <Route path="/product/:productId" element={<Product/>} />
                 <Route path="/cart" element={<Cart/>} />
                 <Route path="/login" element={<Login/>} />
+
                 <Route path="/admin" element={<Admin />} />
+                <Route path="/admin/agregar" element={<AgregarProducto />} />
+                
             </Routes>
         </div>
     );
