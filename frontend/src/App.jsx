@@ -9,6 +9,7 @@ import Navbar from "./components/Navbar.jsx";
 import Admin from './pages/Admin';
 import AgregarProducto from './pages/AgregarProducto';
 import VerProductos from './pages/VerProductos';
+import CollectionCategory from "./pages/CollectionCategory.jsx";
 
 const App = () => {
     return (
@@ -16,6 +17,7 @@ const App = () => {
             <Navbar/>
             <Routes>
                 <Route path="/" element={<Home/>} />
+                <Route path="/categoria/:nombre" element={<CollectionCategory />} />
                 <Route path="/product/:productId" element={<Product/>} />
                 <Route path="/cart" element={<Cart/>} />
                 <Route path="/login" element={<Login/>} />

@@ -36,9 +36,22 @@ const Navbar = () => {
                             Categorías ▾
                             <div className="group-hover:block hidden absolute dropdown-menu right-0 pt-4 z-10">
                                 <div className="flex flex-col gap-2 w-36 py-3 px-5 bg-slate-100 text-gray-500 rounded">
-                                    <p className="cursor-pointer hover:text-black"> Sillas </p>
-                                    <p className="cursor-pointer hover:text-black"> Mesas </p>
-                                    <p className="cursor-pointer hover:text-black"> Oficina </p>
+                                    <Link to="/categoria/Sillas" className="cursor-pointer hover:text-black">Tecnología</Link>
+                                    <Link to="/categoria/Mesas" className="cursor-pointer hover:text-black">Electrodomésticos</Link>
+                                    <Link to="/categoria/Sillas" className="cursor-pointer hover:text-black">Hogar</Link>
+                                    <Link to="/categoria/Sillas" className="cursor-pointer hover:text-black">Oficina</Link>
+                                    <Link to="/categoria/Mesas" className="cursor-pointer hover:text-black">Decoración</Link>
+                                    <Link to="/categoria/Sillas" className="cursor-pointer hover:text-black">Muebles</Link>
+                                    <Link to="/categoria/Sillas" className="cursor-pointer hover:text-black">Salud y Bienestar</Link>
+                                    <Link to="/categoria/Mesas" className="cursor-pointer hover:text-black">Ropa y Accesorios</Link>
+                                    <Link to="/categoria/Sillas" className="cursor-pointer hover:text-black">Aseo y Limpieza</Link>
+                                    <Link to="/categoria/Sillas" className="cursor-pointer hover:text-black">Papelería</Link>
+                                    <Link to="/categoria/Mesas" className="cursor-pointer hover:text-black">Juguetería</Link>
+                                    <Link to="/categoria/Sillas" className="cursor-pointer hover:text-black">Herramientas</Link>
+                                    <Link to="/categoria/Sillas" className="cursor-pointer hover:text-black">Cocina</Link>
+                                    <Link to="/categoria/Mesas" className="cursor-pointer hover:text-black">Iluminación</Link>
+                                    <Link to="/categoria/Sillas" className="cursor-pointer hover:text-black">Mascotas</Link>
+
                                 </div>
                             </div>
                         </div>

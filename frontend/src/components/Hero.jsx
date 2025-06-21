@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { MdOutlineCampaign } from "react-icons/md";
 import { ShopContext } from "../context/ShopContext";
-import ProductCard from "../components/ProductCard";
+import ProductInfo from "../components/ProductInfo";
 
 const Hero = () => {
     const [producto, setProducto] = useState(null);
@@ -27,7 +27,7 @@ const Hero = () => {
                 Artículo berriondo del día: ¡Pídalo ya, que esto vuela más que la pensión!
             </h1>
 
-            <ProductCard product={producto} />
+            <ProductInfo product={producto} />
         </div>
     );
 };

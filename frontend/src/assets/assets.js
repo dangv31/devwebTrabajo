@@ -13,7 +13,7 @@ export const products = [
         description: "Ideal pa’ trabajar, jugar, dormir...",
         price: 300000,
         image: [sillagamer],
-        category: "Sillas",
+        category: "Muebles",
         bestSeller: true
     },
     {
@@ -29,6 +29,15 @@ export const products = [
         image: [sillagamer],
         category: "Hogar",
         bestSeller: true
-    }
+    },
+    {
+        id: 23,
+        name: "Silla Gamer Reclinable Intermunicipal 3000",
+        description: "Ideal pa’ trabajar, jugar, dormir...",
+        price: 100000,
+        image: [sillagamer],
+        category: "Muebles",
+        bestSeller: true
+    },
 ];
 
