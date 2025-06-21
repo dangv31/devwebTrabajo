@@ -14,7 +14,9 @@ export const products = [
         price: 300000,
         image: [sillagamer],
         category: "Sillas",
-        bestSeller: true
+        bestSeller: true,
+        stock: 2,
+        ventas: 10
     },
     {
         id: 112,
@@ -28,7 +30,52 @@ export const products = [
         oldPrice: 100000,
         image: [sillagamer],
         category: "Hogar",
-        bestSeller: true
-    }
+        bestSeller: true,
+        stock: 5,
+        ventas: 2
+    },
+    {
+        id: 113,
+        name: "Cama Montañera XXL",
+        description: "¡Ay, mi gente! ¡Esta no es cualquier cama, no señor! Esta es la Cama Montañera XXL: cómoda, campeona, cuidona, suave y robusta." +
+            "Usted se acuesta ahí y, ¡ay Jesucristo! Lo recibe como si fuera la mamá suya, como si la cama le dijera: ¡tome, ya puede descansar después de toda ese camello!. Y si se duerme en cualquier posición, ¡no se le va a hacer daño la espalda!." +
+            "Tiene 12 niveles de suavidad, desde: se siente como una piedra. Hasta: esto es un abrazo de abuela." +
+            "¡Llévela ya y le regalo la almohada con olor a campo!",
+        price: 500000,
+        image: [sillagamer],
+        category: "Hogar",
+        bestSeller: true,
+        stock: -1,
+        ventas: 20
+    },
+    {
+        id: 114,
+        name: "Taza de café Chinchinense",
+        description: "" +
+            "" +
+            "" +
+            "",
+        price: 50000,
+        image: [sillagamer],
+        category: "Hogar",
+        bestSeller: false,
+        stock: 1,
+        ventas: 50
+    },
+    {
+        id: 115,
+        name: "Luces LED Caleñas",
+        description: "" +
+            "" +
+            "" +
+            "",
+        price: 70000,
+        image: [sillagamer],
+        category: "Hogar",
+        bestSeller: false,
+        stock: 12,
+        ventas: 5
+    },
+
 ];
 
