@@ -1,10 +1,13 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import { MdOutlineCampaign } from "react-icons/md";
 import { products } from '../assets/assets.js';
+import {ShopContext} from '../context/ShopContext';
 
 
 const Hero = () => {
     const [producto, setProducto] = useState(null);
+    const { products } = useContext(ShopContext);
+
     useEffect(() => {
         const randomIndex = Math.floor(Math.random() * products.length);
         setProducto(products[randomIndex]);
