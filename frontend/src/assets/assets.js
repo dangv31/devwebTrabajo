@@ -19,10 +19,10 @@ export const products = [
     {
         id: 112,
         name: "Tostadora Inteligente 7B",
-        description: "Esta no es cualquier tostadora, no señor, esta es la Tostadora Inteligente 7B: buena, bonita, berrionda, bendecida, brillante, bacana y brava.\n" +
-            "Usted le mete el pan y ella le devuelve un desayuno con dignidad, y si se le acaba el pan, ¡le avisa! —como buena compañera que es. Tiene 7 niveles de tostado: desde \"apenas calentado\" hasta \"pa usarlo como ladrillo\".\n" +
-            "¿Y lo mejor? Le canta el himno nacional en salsa mientras el pan se dora. ¡Una chimba de aparato!\n" +
-            "Ideal pa’ solteros, parejas, suegras exigentes y hasta pa’ calentar arepas de anoche sin que se quejen los vecinos.\n" +
+        description: "Esta no es cualquier tostadora, no señor, esta es la Tostadora Inteligente 7B: buena, bonita, berrionda, bendecida, brillante, bacana y brava. " +
+            "Usted le mete el pan y ella le devuelve un desayuno con dignidad, y si se le acaba el pan, ¡le avisa! —como buena compañera que es. Tiene 7 niveles de tostado: desde \"apenas calentado\" hasta \"pa usarlo como ladrillo\"" +
+            "¿Y lo mejor? Le canta el himno nacional en salsa mientras el pan se dora. ¡Una chimba de aparato! " +
+            "Ideal pa’ solteros, parejas, suegras exigentes y hasta pa’ calentar arepas de anoche sin que se quejen los vecinos." +
             "¡Llévela ya y le regalo el cable!",
         price: 89900,
         oldPrice: 100000,
