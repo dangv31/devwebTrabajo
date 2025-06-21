@@ -8,6 +8,7 @@ import Navbar from "./components/Navbar.jsx";
 
 import Admin from './pages/Admin';
 import AgregarProducto from './pages/AgregarProducto';
+import VerProductos from './pages/VerProductos';
 
 const App = () => {
     return (
@@ -21,7 +22,8 @@ const App = () => {
 
                 <Route path="/admin" element={<Admin />} />
                 <Route path="/admin/agregar" element={<AgregarProducto />} />
-                
+                <Route path="/admin/productos" element={<VerProductos />} />
+
             </Routes>
         </div>
     );

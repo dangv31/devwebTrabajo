@@ -1,5 +1,6 @@
 // src/pages/Admin.jsx
 import React from 'react';
+import { FaPlusCircle, FaBoxOpen, FaClipboardList } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import { assets } from '../assets/assets.js';
 
@@ -27,21 +28,24 @@ function Admin() {
       </div>
 
       {/* Botones de acción */}
-      <div className="flex flex-col sm:flex-row gap-4">
+      <div className="flex flex-col sm:flex-row gap-4 mt-6">
         <Link to="/admin/agregar">
-          <button className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
-            ➕ Agregar Producto
-          </button>
+            <button className="flex items-center gap-2 bg-[#A47551] text-white px-4 py-2 cursor-pointer rounded hover:bg-[#916546]">
+                <FaPlusCircle className="text-white" /> Agregar Producto
+            </button>
         </Link>
 
-        <button className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">
-          📦 Ver Productos
-        </button>
+        <Link to="/admin/productos">
+            <button className="flex items-center gap-2 bg-[#D4A017] text-white px-4 py-2 cursor-pointer rounded hover:bg-[#B48C14]">
+                <FaBoxOpen className="text-white" /> Ver Productos
+            </button>
+        </Link>
 
-        <button className="bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700">
-          📑 Ver Órdenes
-        </button>
-      </div>
+            <button className="flex items-center gap-2 bg-[#7D7D7D] text-white px-4 py-2 cursor-pointer rounded hover:bg-[#6A6A6A]">
+                <FaClipboardList className="text-white" /> Ver Órdenes
+            </button>
+        </div>
+
     </div>
   );
 }

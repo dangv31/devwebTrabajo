@@ -32,7 +32,7 @@ function AgregarProducto() {
           </div>
 
           {/* Botón para subir imagen */}
-          <label className="bg-blue-600 text-white px-4 py-2 rounded cursor-pointer hover:bg-blue-700 mt-2">
+          <label className="bg-[#D4A017] text-white px-4 py-2 rounded cursor-pointer hover:bg-[#B48C14] mt-2">
             Agregar foto
             <input
               type="file"
@@ -120,13 +120,13 @@ function AgregarProducto() {
       <div className="flex justify-end gap-4 mt-8">
         <button
           onClick={() => navigate('/admin')}
-          className="bg-gray-400 text-white px-4 py-2 rounded hover:bg-gray-500"
+          className="bg-[#7D7D7D] text-white px-4 py-2 rounded cursor-pointer hover:bg-[#6A6A6A]"
         >
           Cancelar
         </button>
         <button
           onClick={() => alert('Producto agregado (simulado)')}
-          className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
+          className="bg-[#D4A017] text-white px-4 py-2 rounded cursor-pointer hover:bg-[#B48C14]"
         >
           Agregar Producto
         </button>
