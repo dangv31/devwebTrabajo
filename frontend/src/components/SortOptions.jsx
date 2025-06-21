@@ -2,8 +2,8 @@ import React from 'react';
 
 const SortOptions = ({ sortBy, setSortBy }) => {
     const options = [
-        { label: "Price ascending", value: "price-asc" },
-        { label: "Price descending", value: "price-desc" }
+        { label: "Precio ascendente", value: "price-asc" },
+        { label: "Precio descendente", value: "price-desc" }
     ];
 
     return (
