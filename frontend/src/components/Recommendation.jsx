@@ -3,7 +3,7 @@ import { ShopContext } from "../context/ShopContext";
 import ProductCard from "./ProductCard";
 
 const Recommendation = () => {
-    const { products, currency } = useContext(ShopContext);
+    const { products } = useContext(ShopContext);
 
     const recomendados = [...products].sort(() => 0.5 - Math.random()).slice(0, 5);
 

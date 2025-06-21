@@ -11,6 +11,7 @@ import Admin from './pages/Admin';
 import AgregarProducto from './pages/AgregarProducto';
 import VerProductos from './pages/VerProductos';
 import CollectionCategory from "./pages/CollectionCategory.jsx";
+import SearchResults from "./pages/SearchResults.jsx";
 
 const App = () => {
     return (
@@ -22,6 +23,8 @@ const App = () => {
                 <Route path="/product/:productId" element={<Product/>} />
                 <Route path="/cart" element={<Cart/>} />
                 <Route path="/login" element={<Login/>} />
+                <Route path="/buscar" element={<SearchResults />} />
+
 
                 <Route path="/admin" element={<Admin />} />
                 <Route path="/admin/agregar" element={<AgregarProducto />} />

@@ -1,38 +1,48 @@
-import React, { useContext, useState } from 'react';
+import React, {useContext, useMemo, useState} from 'react';
 import { useParams } from 'react-router-dom';
 import { ShopContext } from '../context/ShopContext.jsx';
 import ProductCard from "../components/ProductCard";
 import SortOptions from "../components/SortOptions.jsx";
+import SidebarFilters from "../components/SideBarFilters.jsx";
 
 const CollectionCategory = () => {
+    const { products } = useContext(ShopContext);
     const { nombre } = useParams(); // nombre = categoría seleccionada
     const [sortBy, setSortBy] = useState('');
-    const { products } = useContext(ShopContext);
+    const [filters, setFilters] = useState({
+        offers: new Set(),
+        price: { max: 1000000 },
+        categories: new Set()
+    });
 
     // Filtrar productos por categoría
-    let productosFiltrados = products.filter(
-        p => p.category.toLowerCase() === nombre.toLowerCase()
-    );
+    const productosFiltrados = useMemo(() => {
+        return products.filter((p) => {
+            // Filtrar por categoría de URL
+            const matchCategory = p.category.toLowerCase() === nombre.toLowerCase();
 
-    // Aplicar ordenamiento
-    if (sortBy === 'price-asc') {
-        productosFiltrados.sort((a, b) => a.price - b.price);
-    } else if (sortBy === 'price-desc') {
-        productosFiltrados.sort((a, b) => b.price - a.price);
-    }
+            // Filtrar por precio
+            const matchPrice = p.price <= filters.price.max;
 
+            // Filtrar por ofertas
+            const ofertaBerrionda = filters.offers.has("Oferta Berrionda del día")
+                ? p.oldPrice != null
+                : true;
+
+            return matchCategory && matchPrice && ofertaBerrionda;
+        });
+    }, [products, nombre, filters]);
     return (
         <div className="flex flex-col gap-5 pt-10 border-t">
-            <h1 className="text-2xl font-bold text-center">
-                ¡Todo en un solo toldo, mijo! Vea y escoja, que aquí hay más productos de tipo: {nombre.toLowerCase()} que excusas pa’ no pagar el arriendo.
-            </h1>
-
+            <h1 className="text-2xl font-bold text-center">¡Todo en un solo toldo, mijo! Vea y escoja, que aquí hay más productos de tipo: {nombre.toLowerCase()} que excusas pa’ no pagar el arriendo.</h1>
             <SortOptions sortBy={sortBy} setSortBy={setSortBy} />
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                {productosFiltrados.map((product, index) => (
-                    <ProductCard key={index} product={product} />
-                ))}
+            <div className="flex flex-col sm:flex-row gap-4">
+                <SidebarFilters filters={filters} setFilters={setFilters} />
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                    {productosFiltrados.map((product, index) => (
+                        <ProductCard key={index} product={product} />
+                    ))}
+                </div>
             </div>
         </div>
     );

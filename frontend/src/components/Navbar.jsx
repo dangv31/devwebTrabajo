@@ -1,15 +1,22 @@
 // src/components/Navbar.jsx
 
-import React from 'react'; // Se elimina useState porque ya no se usa aquí
+import React,{useState} from 'react'; // Se elimina useState porque ya no se usa aquí
 import { assets } from '../assets/assets.js';
-import { Link, useLocation } from 'react-router-dom'; // <--- 1. IMPORTAR useLocation
+import {Link, useLocation, useNavigate} from 'react-router-dom'; // <--- 1. IMPORTAR useLocation
 import { FaSearch } from "react-icons/fa";
 import { FiShoppingCart } from "react-icons/fi";
 
 const Navbar = () => {
     const location = useLocation();
     const isLoginPage = location.pathname === '/login';
-
+    
+    const navigate = useNavigate();
+    const [searchTerm, setSearchTerm] = useState("");
+    const handleKeyDown = (e) => {
+        if (e.key === "Enter" && searchTerm.trim()) {
+            navigate(`/buscar?q=${encodeURIComponent(searchTerm.trim())}`);
+        }
+    };
     return (
         <div className={`w-full flex items-center py-5 font-medium ${
             isLoginPage ? 'justify-center' : 'justify-between'
@@ -23,7 +30,7 @@ const Navbar = () => {
                     {/* Barra de búsqueda */}
                     <div className="hidden sm:flex items-center bg-white rounded px-2 py-1 w-1/3 border ">
                         <FaSearch className="mr-2" />
-                        <input type="text" placeholder="Buscar Producto" className="outline-none w-full"/>
+                        <input type="text" placeholder="Buscar Producto" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} onKeyDown={handleKeyDown} className="outline-none w-full"/>
                     </div>
 
                     {/* Categorías + Botones */}
