@@ -85,9 +85,22 @@ function AgregarProducto() {
             <label className="block font-medium mb-1">Categoría:</label>
             <select className="w-full border px-3 py-2 rounded">
               <option value="">Seleccionar</option>
-              <option value="sillas">Sillas</option>
-              <option value="mesas">Mesas</option>
-              <option value="oficina">Oficina</option>
+              <option value="sillas">Tecnología</option>
+              <option value="mesas">Electrodomésticos</option>
+              <option value="oficina">Hogar</option>
+              <option value="sillas">Oficina</option>
+              <option value="mesas">Decoración</option>
+              <option value="oficina">Muebles</option>
+              <option value="">Salud y Bienestar</option>
+              <option value="sillas">Ropa y Accesorios</option>
+              <option value="mesas">Aseo y Limpieza</option>
+              <option value="oficina">Papelería</option>
+              <option value="sillas">Juguetería</option>
+              <option value="mesas">Herramientas</option>
+              <option value="oficina">Cocina</option>
+              <option value="mesas">Iluminación</option>
+              <option value="oficina">Mascotas</option>
+
             </select>
           </div>
         </div>
