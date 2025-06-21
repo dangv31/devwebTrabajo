@@ -2,28 +2,32 @@ import React from 'react';
 
 const VerOrdenes = () => {
   const ordenes = [
-    {
-      id: 1001,
-      cliente: 'Carlos Pérez',
-      productos: ['Silla Gamer', 'Luces LED Caleñas'],
-      total: 190000,
-      estado: 'Pendiente',
-    },
-    {
-      id: 1002,
-      cliente: 'Sandra Gómez',
-      productos: ['Taza de café Chinchinense'],
-      total: 50000,
-      estado: 'Entregado',
-    },
-    {
-      id: 1003,
-      cliente: 'Don Ramón',
-      productos: ['Cama Montañera XXL'],
-      total: 500000,
-      estado: 'Cancelado',
-    },
-  ];
+  {
+    id: 1001,
+    cliente: 'Carlos Pérez',
+    productos: ['Silla Gamer', 'Luces LED Caleñas'],
+    total: 190000,
+    estado: 'Pendiente',
+    fecha: '2024-06-20T14:00:00Z',
+  },
+  {
+    id: 1002,
+    cliente: 'Sandra Gómez',
+    productos: ['Taza de café Chinchinense'],
+    total: 50000,
+    estado: 'Entregado',
+    fecha: '2024-06-19T10:30:00Z',
+  },
+  {
+    id: 1003,
+    cliente: 'Don Ramón',
+    productos: ['Cama Montañera XXL'],
+    total: 500000,
+    estado: 'Cancelado',
+    fecha: '2024-06-18T09:15:00Z',
+  },
+];
+
 
   const colorEstado = (estado) => {
     switch (estado) {
@@ -37,6 +41,10 @@ const VerOrdenes = () => {
         return '';
     }
   };
+
+  const ordenesOrdenadas = [...ordenes].sort(
+  (a, b) => new Date(b.fecha) - new Date(a.fecha)
+    );
 
   return (
     <div className="p-8">
@@ -52,21 +60,27 @@ const VerOrdenes = () => {
               <th className="px-4 py-2 border-b">Cliente</th>
               <th className="px-4 py-2 border-b">Productos</th>
               <th className="px-4 py-2 border-b">Total</th>
+              <th className="px-4 py-2 border-b">Fecha</th>
               <th className="px-4 py-2 border-b">Estado</th>
             </tr>
           </thead>
           <tbody>
-            {ordenes.map((orden) => (
-              <tr key={orden.id} className="hover:bg-gray-50">
-                <td className="px-4 py-2 border-b">{orden.id}</td>
-                <td className="px-4 py-2 border-b">{orden.cliente}</td>
-                <td className="px-4 py-2 border-b">{orden.productos.join(', ')}</td>
-                <td className="px-4 py-2 border-b">${orden.total.toLocaleString()}</td>
-                <td className={`px-4 py-2 border-b ${colorEstado(orden.estado)}`}>
-                  {orden.estado}
-                </td>
-              </tr>
-            ))}
+            {ordenesOrdenadas.map((orden) => (
+                <tr key={orden.id}>
+                    <td>{orden.id}</td>
+                    <td>{orden.cliente}</td>
+                    <td>{orden.productos.join(', ')}</td>
+                    <td>${orden.total.toLocaleString()}</td>
+                    <td>{new Date(orden.fecha).toLocaleDateString('es-CO', {
+                    year: 'numeric',
+                    month: 'short',
+                    day: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    })}</td>
+                    <td className={colorEstado(orden.estado)}>{orden.estado}</td>
+                </tr>
+                ))}
           </tbody>
         </table>
       </div>
