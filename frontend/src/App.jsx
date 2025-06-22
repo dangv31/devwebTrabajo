@@ -12,6 +12,8 @@ import AgregarProducto from './pages/AgregarProducto';
 import VerProductos from './pages/VerProductos';
 import Collection from "./pages/Collection.jsx";
 import SearchBar from "./components/SearchBar.jsx";
+import { ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 const App = () => {
     return (
@@ -30,8 +32,8 @@ const App = () => {
                 <Route path="/admin/agregar" element={<AgregarProducto />} />
                 <Route path="/admin/productos" element={<VerProductos />} />
                 <Route path="/admin/ordenes" element={<VerOrdenes />} />
-
             </Routes>
+            <ToastContainer position="top-center" autoClose={3000} />
         </div>
     );
 };

@@ -11,7 +11,7 @@ const Navbar = () => {
     const location = useLocation();
     const isLoginPage = location.pathname === '/login';
 
-    const {setShowSearch} = useContext(ShopContext);
+    const {setShowSearch, getCartCount} = useContext(ShopContext);
     return (
         <div className={`w-full flex items-center py-5 font-medium ${
             isLoginPage ? 'justify-center' : 'justify-between'
@@ -38,7 +38,7 @@ const Navbar = () => {
                         </Link>
                         <Link to="/cart" className="relative">
                             <FiShoppingCart className="text-2xl" />
-                            <p className="absolute right-[-5px] bottom-[-5px] w-4 text-center leading-4 bg-black text-white aspect-square rounded-full text-[8px]">10</p>
+                            <p className="absolute right-[-5px] bottom-[-5px] w-4 text-center leading-4 bg-black text-white aspect-square rounded-full text-[8px]">{getCartCount()}</p>
                         </Link>
                     </div>
                 </>

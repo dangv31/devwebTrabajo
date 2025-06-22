@@ -1,6 +1,9 @@
-import React from "react";
+import React, {useContext} from "react";
+import {ShopContext} from "../context/ShopContext.jsx";
 
 const ProductInfo = ({ product, showDescription = true, showButton = true }) => {
+    const {addToCart} = useContext(ShopContext);
+
     return (
         <div className="flex flex-col sm:flex-row border border-gray-400 rounded-lg shadow-lg bg-white">
             {/* Texto izquierda */}
@@ -20,7 +23,7 @@ const ProductInfo = ({ product, showDescription = true, showButton = true }) => 
                             ${product.price.toLocaleString()}
                         </span>
                         {showButton && (
-                            <button className="bg-black text-white px-4 py-2 text-sm rounded cursor-pointer">
+                            <button onClick={() => addToCart(product.id)} className="bg-black text-white px-4 py-2 text-sm rounded cursor-pointer">
                                 Agregar al carrito
                             </button>
                         )}
