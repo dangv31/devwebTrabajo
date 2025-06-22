@@ -74,7 +74,7 @@ export const products = [
         image: [sillagamer],
         category: "Hogar",
         bestSeller: false,
-        stock: 12,
+        stock: -5,
         ventas: 5
     },
 

@@ -16,14 +16,13 @@ const Collection = () => {
     const filteredProducts = useMemo(() => {
         let filtered = products.filter((p) => {
             const matchPrice = p.price <= filters.price.max;
-            const matchStock = p.stock > -4;
             const matchCategory = filters.categories.size === 0 || filters.categories.has(p.category);
             const ofertaBerrionda = filters.offers.has("Ofertas Berriondas") ? p.oldPrice != null : true;
             const matchSearch = search.trim() === "" ||
                 p.name.toLowerCase().includes(search.toLowerCase()) ||
                 p.description.toLowerCase().includes(search.toLowerCase());
 
-            return matchPrice && ofertaBerrionda && matchStock && matchCategory && matchSearch;
+            return matchPrice && ofertaBerrionda && matchCategory && matchSearch;
         });
 
         if (sortBy === "price-asc") {
