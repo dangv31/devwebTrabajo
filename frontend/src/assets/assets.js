@@ -1,4 +1,4 @@
-import sillagamer from './sillagamer.jpg';
+import sillagamer from './products/sillagamer.jpg';
 import logo from './logo.png';
 
 
