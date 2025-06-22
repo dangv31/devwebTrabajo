@@ -20,7 +20,6 @@ const ShopContextProvider = (props) => {
         const cantidadEnCarrito = cartItems[itemId] || 0;
         const totalSolicitado = cantidadEnCarrito + 1;
 
-        // ✅ El stock solo permite productos si stock > -4
         if (product.stock - totalSolicitado < -4) {
             toast.error("No hay suficiente stock para agregar más unidades.");
             return;
@@ -43,8 +42,58 @@ const ShopContextProvider = (props) => {
         return Object.values(cartItems).reduce((acc, cantidad) => acc + cantidad, 0);
     };
 
+    const updateQuantity = (itemId, quantity) => {
+        const product = products.find(p => p.id === parseInt(itemId));
+        if (!product) return;
+
+        const parsedQty = quantity === 0 ? 0 : parseInt(quantity) || 1;
+
+        const stockProyectado = product.stock - parsedQty;
+
+        if (stockProyectado < 0) {
+            toast.error("Superaste el límite de unidades disponibles para este producto.");
+            return;
+        }
+
+        const cartData = structuredClone(cartItems);
+        cartData[itemId] = parsedQty;
+        setCartItems(cartData);
+    };
+
+    const getCartAmount = () => {
+        let totalAmount = 0;
+
+        for (const itemId in cartItems) {
+            const quantity = cartItems[itemId];
+            const product = products.find(p => p.id === parseInt(itemId));
+
+            if (product) {
+                totalAmount += product.price * quantity;
+            }
+        }
+
+        return totalAmount;
+    };
+    const getTotalSavings = () => {
+        let savings = 0;
+
+        for (const productId in cartItems) {
+            const quantity = cartItems[productId];
+            const product = products.find(p => p.id === parseInt(productId));
+
+            if (product && product.oldPrice && product.oldPrice > product.price && quantity > 0) {
+                const ahorroPorUnidad = product.oldPrice - product.price;
+                savings += ahorroPorUnidad * quantity;
+            }
+        }
+
+        return savings;
+    };
+
+
     const value = {
-        products, search, setSearch, showSearch, setShowSearch, cartItems, addToCart, getCartCount
+        products, search, setSearch, showSearch, setShowSearch, cartItems, addToCart, getCartCount, updateQuantity,
+        getCartAmount, getTotalSavings
     }
     return (
         <ShopContext.Provider value = {value}>

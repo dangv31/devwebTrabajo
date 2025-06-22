@@ -1,10 +1,81 @@
-import React from 'react';
+import React, { useContext, useEffect, useState } from 'react';
+import { ShopContext } from "../context/ShopContext.jsx";
+import { RiDeleteBin5Line } from "react-icons/ri";
+import CartTotal from "../components/CartTotal.jsx";
+
 
 const Cart = () => {
+    const { products, cartItems, updateQuantity } = useContext(ShopContext);
+    const [cartData, setCartData] = useState([]);
+
+    useEffect(() => {
+        const tempData = [];
+
+        for (const productId in cartItems) {
+            const quantity = cartItems[productId];
+
+            if (quantity > 0) {
+                const product = products.find(p => p.id === parseInt(productId));
+                if (product) {
+                    tempData.push({
+                        id: productId,
+                        quantity,
+                        product
+                    });
+                }
+            }
+        }
+
+        setCartData(tempData);
+    }, [cartItems, products]);
+
+
     return (
-        <div>
-            <h1>Welcome to the Cart App</h1>
-            <p>This is a simple React application.</p>
+        <div className="border-t border-gray-300 pt-5">
+            {cartData.length === 0 ? (
+                <div className="text-2xl mb-3 text-center font-bold text-gray-800">
+                    Su carrito está más vacío que la billetera de un fiado.
+                </div>
+            ) : (
+                <>
+                    <div className="text-2xl mb-3 text-center font-bold text-gray-800">
+                        Su carrito: ¡más cargado que chiva en feria!
+                    </div>
+                    <div>
+                        {cartData.map((item, index) => (
+                            <div key={index} className="py-4 border-gray-300 border-t border-b text-gray-800 grid grid-cols-[4fr_0.5fr_0.5fr] sm:grid-cols-[4fr_2fr_0.5fr] items-center gap-4">
+                                <div className="flex items-start gap-6">
+                                    <img className="w-16 sm:w-20" src={item.product.image[0]} alt="" />
+                                    <div>
+                                        <p className="text-xs sm:text-lg font-medium">{item.product.name}</p>
+                                        <div className="flex items-center gap-5 mt-2">
+                                            <div className="flex flex-col sm:flex-row sm:items-center gap-1">
+                                                {item.product.oldPrice && item.product.oldPrice > item.product.price && (
+                                                    <p className="line-through text-sm text-gray-500">
+                                                        ${item.product.oldPrice.toLocaleString('es-CO')}
+                                                    </p>
+                                                )}
+                                                <p className="text-black font-semibold text-sm">
+                                                    ${item.product.price.toLocaleString('es-CO')}
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <input onChange={(e) => updateQuantity(item.id, Number(e.target.value))} className="border max-w-10 sm:max-w-20 px-1 sm:px-2 py-1" type="number" min={1} max={item.product.stock} value={item.quantity} />
+                                <RiDeleteBin5Line onClick={() => updateQuantity(item.id, 0)} className="text-2xl sm:text-3xl cursor-pointer" />
+                            </div>
+                        ))}
+                        <div className="flex justify-end my-20">
+                            <div className="w-full sm:w-[450px]">
+                                <CartTotal/>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </>
+            )}
         </div>
     );
 };
