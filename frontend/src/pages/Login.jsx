@@ -1,6 +1,6 @@
-// src/components/Login.jsx
-
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+import { useNavigate } from 'react-router-dom'; // Para redirigir al usuario
+import { ShopContext } from '../context/ShopContext.jsx'; // Para acceder al estado de sesión
 
 const Login = () => {
     const [currentState, setCurrentState] = useState('Iniciar Sesión');
@@ -16,7 +16,9 @@ const Login = () => {
 
     const [notification, setNotification] = useState({ message: '', type: '' });
 
-    // Manejador genérico para actualizar el estado de los inputs
+    const navigate = useNavigate(); 
+    const { login } = useContext(ShopContext); 
+
     const onChangeHandler = (event) => {
         const { name, value } = event.target;
         setFormData(prevData => ({ ...prevData, [name]: value }));
@@ -24,9 +26,8 @@ const Login = () => {
 
     const onSubmitHandler = (event) => {
         event.preventDefault();
-        setNotification({ message: '', type: '' }); // Limpiar notificaciones previas
+        setNotification({ message: '', type: '' });
 
-        // Lógica para registrar un nuevo usuario
         if (currentState === 'Registrarse') {
             if (formData.password !== formData.confirmPassword) {
                 setNotification({ message: 'Las contraseñas no coinciden.', type: 'error' });
@@ -34,8 +35,8 @@ const Login = () => {
             }
 
             const users = JSON.parse(localStorage.getItem('users')) || [];
-            
             const userExists = users.some(user => user.email === formData.email);
+
             if (userExists) {
                 setNotification({ message: 'El correo electrónico ya está registrado.', type: 'error' });
                 return;
@@ -47,19 +48,31 @@ const Login = () => {
 
             localStorage.setItem('users', JSON.stringify(users));
             setNotification({ message: '¡Registro exitoso! Ahora puedes iniciar sesión.', type: 'success' });
-            setCurrentState('Iniciar Sesión'); 
+            setCurrentState('Iniciar Sesión');
+        }
 
-        } 
-
-        // Lógica para iniciar sesión
         else {
+            // Datos simulados del administrador
+            const ADMIN_EMAIL = 'admin@berriondo.com';
+            const ADMIN_PASS = 'admin123';
+
+            if (formData.email === ADMIN_EMAIL && formData.password === ADMIN_PASS) {
+                const adminUser = {
+                    nombre: 'Admin',
+                    email: ADMIN_EMAIL,
+                    role: 'admin' 
+                };
+                login(adminUser); 
+                navigate('/');  
+                return; 
+            }
+
             const users = JSON.parse(localStorage.getItem('users')) || [];
-            const user = users.find(user => user.email === formData.email);
+            const user = users.find(u => u.email === formData.email);
 
             if (user && user.password === formData.password) {
-                localStorage.setItem('loggedInUser', JSON.stringify(user));
-                setNotification({ message: `¡Bienvenido, ${user.nombre}!`, type: 'success' });
-                // window.location.href = '/dashboard';
+                login(user);   
+                navigate('/'); 
             } else {
                 setNotification({ message: 'Credenciales inválidas. Por favor, inténtalo de nuevo.', type: 'error' });
             }

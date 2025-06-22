@@ -3,6 +3,7 @@ package com.donberriondo.VariedadesDonBerriondo.models.entities;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Setter
@@ -29,13 +30,12 @@ public class UserEntity {
 
     private String password;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.REMOVE})
-    @JoinTable(name = "user_cart", joinColumns = @JoinColumn(name="user_id"),inverseJoinColumns = @JoinColumn(name="product_cart_id"))
-    private Set<ProductCartEntity> cart;
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private ShoppingCartEntity shoppingCart;
 
-    @ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.EAGER,cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name="user_id"),inverseJoinColumns = @JoinColumn(name="role_id"))
-    private Set<RoleEntity> roles;
+    private Set<RoleEntity> roles = new HashSet<>();
 
     @Column(name = "is_enabled")
     private boolean isEnabled;

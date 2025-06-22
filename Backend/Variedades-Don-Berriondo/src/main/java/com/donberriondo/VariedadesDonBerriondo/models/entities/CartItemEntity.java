@@ -12,14 +12,18 @@ import java.util.Set;
 @NoArgsConstructor
 @ToString
 @Entity
-@Table(name = "products_cart")
+@Table(name = "cart_items")
 
-public class ProductCartEntity {
+public class CartItemEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.MERGE)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "cart_id")
+    private ShoppingCartEntity cart;
+
+    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.MERGE)
     @JoinColumn(name = "product_id")
     private ProductEntity product;
 

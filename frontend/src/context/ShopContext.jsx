@@ -9,33 +9,51 @@ const ShopContextProvider = (props) => {
     const[showSearch, setShowSearch] = useState(false);
     const[cartItems, setCartItems] = useState({});
 
+    // --- LÓGICA DE AUTENTICACIÓN ---
+    const [user, setUser] = useState(null);
+
+    useEffect(() => {
+        try {
+            const loggedInUser = localStorage.getItem('loggedInUser');
+            if (loggedInUser) {
+                setUser(JSON.parse(loggedInUser));
+            }
+        } catch (error) {
+            console.error("Error al parsear el usuario del localStorage", error);
+            localStorage.removeItem('loggedInUser');
+        }
+    }, []); 
+
+    const login = (userData) => {
+        setUser(userData);
+        localStorage.setItem('loggedInUser', JSON.stringify(userData));
+    };
+
+    const logout = () => {
+        setUser(null);
+        localStorage.removeItem('loggedInUser');
+    };
+    
+
     const addToCart = async (itemId) => {
         const product = products.find(p => p.id === itemId);
-
         if (!product) {
             toast.error("Producto no encontrado.");
             return;
         }
-
         const cantidadEnCarrito = cartItems[itemId] || 0;
         const totalSolicitado = cantidadEnCarrito + 1;
-
         if (product.stock - totalSolicitado < -4) {
             toast.error("No hay suficiente stock para agregar más unidades.");
             return;
         }
-
         const cartData = structuredClone(cartItems);
         cartData[itemId] = totalSolicitado;
         setCartItems(cartData);
     };
 
-
-
-
     useEffect(() => {
         console.log("Carrito actualizado:", cartItems);
-
     }, [cartItems]);
 
     const getCartCount = () => {
@@ -45,16 +63,12 @@ const ShopContextProvider = (props) => {
     const updateQuantity = (itemId, quantity) => {
         const product = products.find(p => p.id === parseInt(itemId));
         if (!product) return;
-
         const parsedQty = quantity === 0 ? 0 : parseInt(quantity) || 1;
-
         const stockProyectado = product.stock - parsedQty;
-
         if (stockProyectado < 0) {
             toast.error("Superaste el límite de unidades disponibles para este producto.");
             return;
         }
-
         const cartData = structuredClone(cartItems);
         cartData[itemId] = parsedQty;
         setCartItems(cartData);
@@ -62,41 +76,48 @@ const ShopContextProvider = (props) => {
 
     const getCartAmount = () => {
         let totalAmount = 0;
-
         for (const itemId in cartItems) {
             const quantity = cartItems[itemId];
             const product = products.find(p => p.id === parseInt(itemId));
-
             if (product) {
                 totalAmount += product.price * quantity;
             }
         }
-
         return totalAmount;
     };
+
     const getTotalSavings = () => {
         let savings = 0;
-
         for (const productId in cartItems) {
             const quantity = cartItems[productId];
             const product = products.find(p => p.id === parseInt(productId));
-
             if (product && product.oldPrice && product.oldPrice > product.price && quantity > 0) {
                 const ahorroPorUnidad = product.oldPrice - product.price;
                 savings += ahorroPorUnidad * quantity;
             }
         }
-
         return savings;
     };
 
-
     const value = {
-        products, search, setSearch, showSearch, setShowSearch, cartItems, addToCart, getCartCount, updateQuantity,
-        getCartAmount, getTotalSavings
+        products, 
+        search, 
+        setSearch, 
+        showSearch, 
+        setShowSearch, 
+        cartItems, 
+        addToCart, 
+        getCartCount, 
+        updateQuantity,
+        getCartAmount, 
+        getTotalSavings,
+        user,
+        login,
+        logout
     }
+
     return (
-        <ShopContext.Provider value = {value}>
+        <ShopContext.Provider value={value}>
             {props.children}
         </ShopContext.Provider>
     )
