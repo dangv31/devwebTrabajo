@@ -25,10 +25,10 @@ const SidebarFilters = ({ filters, setFilters, showCat = true }) => {
                 <label className="flex items-center gap-2">
                     <input
                         type="checkbox"
-                        checked={filters.offers.has("Oferta Berrionda del día")}
-                        onChange={() => handleCheckboxChange("offers", "Oferta Berrionda del día")}
+                        checked={filters.offers.has("Ofertas Berriondas")}
+                        onChange={() => handleCheckboxChange("offers", "Ofertas Berriondas")}
                     />
-                    Oferta Berrionda del día
+                    Ofertas Berriondas
                 </label>
             </div>
 
