@@ -1,5 +1,6 @@
 import React from 'react';
 import { IoClose } from "react-icons/io5";
+import {Link} from "react-router-dom";
 
 const ProductPopup = ({ product, onClose }) => {
   if (!product || !product.oldPrice) return null;
@@ -40,10 +41,11 @@ const ProductPopup = ({ product, onClose }) => {
           {product.description}
         </p>
       )}
-
-      <button className="w-full bg-black text-white font-bold py-3 px-6 rounded-md text-sm hover:bg-gray-800 transition-transform hover:scale-105 cursor-pointer">
-        Ver producto
-      </button>
+      <Link to={`product/${product.id}`}>
+          <button className="w-full bg-black text-white font-bold py-3 px-6 rounded-md text-sm hover:bg-gray-800 transition-transform hover:scale-105 cursor-pointer">
+              Ver producto
+          </button>
+      </Link>
     </div>
   );
 };

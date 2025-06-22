@@ -1,10 +1,36 @@
-import React from 'react';
+import React, { useContext, useEffect, useState } from 'react';
+import { useParams } from "react-router-dom";
+import { ShopContext } from "../context/ShopContext.jsx";
+import ProductInfo from "../components/ProductInfo.jsx";
+import Recommendation from "../components/Recommendation.jsx";
 
 const Product = () => {
+    const { productId } = useParams();
+    const { products } = useContext(ShopContext);
+    const [productData, setProductData] = useState(null);
+
+    useEffect(() => {
+        const foundProduct = products.find((p) => p.id === parseInt(productId));
+        setProductData(foundProduct);
+    }, [productId, products]);
+
+    if (!productData) {
+        return (
+            <div className="text-center py-20 text-lg">
+                Producto no encontrado.
+            </div>
+        );
+    }
+
     return (
         <div>
-            <h1>Welcome to the Product App</h1>
-            <p>This is a simple React application.</p>
+            <ProductInfo product={productData} />
+            <hr className="border-t-2 border-gray-300 mb-4 mt-4" />
+            <h1 className="font-bold text-sm text-center md:text-base text-black m-5">
+                ¡Esto no es todo, mijo! Aquí hay más productos que excusas pa' no pagar fiado!
+            </h1>
+            <hr className="border-t-2 border-gray-300 mb-4" />
+            <Recommendation/>
         </div>
     );
 };
