@@ -51,11 +51,12 @@ export const products = [
     {
         id: 114,
         name: "Taza de café Chinchinense",
-        description: "" +
+        description: "Manufacturada a mano por cafeteros Chinchinenses, en una finca cafetera donde han vivido generaciones de recolectores de café." +
             "" +
             "" +
             "",
-        price: 50000,
+        price: 30000,
+        oldPrice: 50000,
         image: [sillagamer],
         category: "Hogar",
         bestSeller: false,
