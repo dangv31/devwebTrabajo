@@ -8,6 +8,8 @@ import Navbar from "./components/Navbar.jsx";
 import VerOrdenes from './pages/VerOrdenes';
 import Profile from './pages/Profile';
 
+import SolicitarProducto from './pages/SolicitarProducto.jsx';
+
 import Admin from './pages/Admin';
 import AgregarProducto from './pages/AgregarProducto';
 import VerProductos from './pages/VerProductos';
@@ -28,6 +30,8 @@ const App = () => {
                 <Route path="/cart" element={<Cart/>} />
                 <Route path="/login" element={<Login/>} />
                 <Route path="/profile" element={<Profile/>} />
+                <Route path="/solicitar/:id" element={<SolicitarProducto />} />
+
 
                 <Route path="/admin" element={<Admin />} />
                 <Route path="/admin/agregar" element={<AgregarProducto />} />
