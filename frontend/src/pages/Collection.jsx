@@ -1,17 +1,33 @@
-import React, { useContext, useMemo, useState } from 'react';
+import React, { useContext, useMemo, useState, useEffect } from 'react';
 import { ShopContext } from '../context/ShopContext.jsx';
 import ProductCard from "../components/ProductCard";
 import SortOptions from "../components/SortOptions.jsx";
 import SidebarFilters from "../components/SideBarFilters.jsx";
 
+import { useLocation } from 'react-router-dom';
+
+
 const Collection = () => {
+    const location = useLocation();
+    const queryParams = new URLSearchParams(location.search);
+    const categoriaDesdeURL = queryParams.get("categoria");
+
     const { products, search, showSearch } = useContext(ShopContext);
     const [sortBy, setSortBy] = useState('');
     const [filters, setFilters] = useState({
         offers: new Set(),
         price: { max: 1000000 },
-        categories: new Set()
+        categories: categoriaDesdeURL ? new Set([categoriaDesdeURL]) : new Set()
     });
+
+    useEffect(() => {
+        if (categoriaDesdeURL) {
+            setFilters(prev => ({
+                ...prev,
+                categories: new Set([categoriaDesdeURL])
+            }));
+        }
+    }, [categoriaDesdeURL]);
 
     const filteredProducts = useMemo(() => {
         let filtered = products.filter((p) => {

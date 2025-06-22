@@ -7,6 +7,8 @@ import Login from "./pages/Login.jsx";
 import Navbar from "./components/Navbar.jsx";
 import VerOrdenes from './pages/VerOrdenes';
 
+import SolicitarProducto from './pages/SolicitarProducto.jsx';
+
 import Admin from './pages/Admin';
 import AgregarProducto from './pages/AgregarProducto';
 import VerProductos from './pages/VerProductos';
@@ -26,6 +28,8 @@ const App = () => {
                 <Route path="/product/:productId" element={<Product/>} />
                 <Route path="/cart" element={<Cart/>} />
                 <Route path="/login" element={<Login/>} />
+
+                <Route path="/solicitar/:id" element={<SolicitarProducto />} />
 
 
                 <Route path="/admin" element={<Admin />} />
