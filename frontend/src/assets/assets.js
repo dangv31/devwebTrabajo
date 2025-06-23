@@ -141,17 +141,6 @@ export const categories = [
 
 export const products = [
     {
-        id: 111,
-        name: "Silla Gamer Reclinable Intermunicipal 3000",
-        description: "Ideal pa’ trabajar, jugar, dormir...",
-        price: 300000,
-        image: [sillagamer],
-        category: "Muebles",
-        bestSeller: true,
-        stock: 2,
-        ventas: 10
-    },
-    {
         id: 100,
         name: "Celular Inteligente Berriondo Max 5000",
         description: "Este no es cualquier celular, este berriondo es un todoterreno digital. Tiene más funciones que una navaja suiza, y más memoria que su tía Marta cuando le debe plata. Le detecta la cara hasta con mascarilla de aguacate, y si se le cae, suena '¡Ay juepucha!' pa’ avisar que sigue vivo. ¡Pídalo ya!",

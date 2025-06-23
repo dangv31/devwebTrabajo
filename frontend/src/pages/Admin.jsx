@@ -1,10 +1,12 @@
 // src/pages/Admin.jsx
-import React from 'react';
+import React, {useContext} from 'react';
 import { FaPlusCircle, FaBoxOpen, FaClipboardList } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import { assets } from '../assets/assets.js';
+import {ShopContext} from "../context/ShopContext.jsx";
 
 function Admin() {
+  const { resetProducts } = useContext(ShopContext);
   return (
     <div className="p-8">
       <h1 className="text-2xl font-bold mb-2">¡Bienvenido, mijo!</h1>
@@ -46,6 +48,9 @@ function Admin() {
                 <FaClipboardList className="text-white" /> Ver Órdenes
             </button>
         </Link>
+        <button onClick={resetProducts} className="bg-red-400 text-white px-4 py-2 rounded hover:bg-red-700 cursor-pointer">
+            Restaurar Productos Originales
+        </button>
         </div>
 
     </div>

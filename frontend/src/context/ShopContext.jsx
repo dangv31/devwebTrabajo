@@ -54,6 +54,11 @@ const ShopContextProvider = (props) => {
         setProducts(actualizados);
         localStorage.setItem('productos', JSON.stringify(actualizados));
     };
+    const resetProducts = () => {
+        localStorage.removeItem('productos');
+        setProducts(productsDefault);
+        toast.success("Productos restaurados a su estado original.");
+    };
     
 
     const addToCart = async (itemId) => {
@@ -138,7 +143,8 @@ const ShopContextProvider = (props) => {
         login,
         logout,
         addProduct,
-        editProduct
+        editProduct,
+        resetProducts
     }
 
     return (
