@@ -1,7 +1,14 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import { categories } from "../assets/assets.js";
 
 const SidebarFilters = ({ filters, setFilters, showCat = true }) => {
+    const [categories, setCategories] = useState([]);
+
+    useEffect(() => {
+        const stored = JSON.parse(localStorage.getItem("categoriasFijas")) || [];
+        setCategories(stored);
+    }, []);
+
     const handleCheckboxChange = (section, value) => {
         setFilters(prev => {
             const updated = new Set(prev[section]);
