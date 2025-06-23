@@ -46,6 +46,14 @@ function Admin() {
                 <FaClipboardList className="text-white" /> Ver Órdenes
             </button>
         </Link>
+
+        <Link to="/admin/categorias">
+          <button className="flex items-center gap-2 bg-[#347571] text-white px-4 py-2 cursor-pointer rounded hover:bg-[#2C615E]">
+            <FaClipboardList className="text-white" /> Categorías
+          </button>
+        </Link>
+
+
         </div>
 
     </div>
