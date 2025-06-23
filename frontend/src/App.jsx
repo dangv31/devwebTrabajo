@@ -21,26 +21,30 @@ import 'react-toastify/dist/ReactToastify.css';
 
 const App = () => {
     return (
-        <div className="px-4 sm:px-[5vm] md:px-[7vw] lg:px-[9vw] ">
-            <Navbar/>
-            <SearchBar/>
-            <Routes>
-                <Route path="/" element={<Home/>} />
-                <Route path="/products" element={<Collection />} />
-                <Route path="/product/:productId" element={<Product/>} />
-                <Route path="/cart" element={<Cart/>} />
-                <Route path="/login" element={<Login/>} />
-                <Route path="/profile" element={<Profile/>} />
-                <Route path="/solicitar/:id" element={<SolicitarProducto />} />
+        <div>
+            <div className="bg-[#f2af4c] w-full px-4 sm:px-[5vw] md:px-[7vw] lg:px-[9vw]">
+                <Navbar/>
+            </div>
+            <div className="px-4 sm:px-[5vw] md:px-[7vw] lg:px-[9vw]">
+                <SearchBar/>
+                <Routes>
+                    <Route path="/" element={<Home/>} />
+                    <Route path="/products" element={<Collection />} />
+                    <Route path="/product/:productId" element={<Product/>} />
+                    <Route path="/cart" element={<Cart/>} />
+                    <Route path="/login" element={<Login/>} />
+                    <Route path="/profile" element={<Profile/>} />
+                    <Route path="/solicitar/:id" element={<SolicitarProducto />} />
 
-                 <Route element={<AdminRoute />}>
-                    <Route path="/admin" element={<Admin />} />
-                    <Route path="/admin/agregar" element={<AgregarProducto />} />
-                    <Route path="/admin/editar/:id" element={<AgregarProducto />} />
-                    <Route path="/admin/productos" element={<VerProductos />} />
-                    <Route path="/admin/ordenes" element={<VerOrdenes />} />
-                </Route>
-            </Routes>
+                    <Route element={<AdminRoute />}>
+                        <Route path="/admin" element={<Admin />} />
+                        <Route path="/admin/agregar" element={<AgregarProducto />} />
+                        <Route path="/admin/editar/:id" element={<AgregarProducto />} />
+                        <Route path="/admin/productos" element={<VerProductos />} />
+                        <Route path="/admin/ordenes" element={<VerOrdenes />} />
+                    </Route>
+                </Routes>
+            </div>
             <ToastContainer position="top-center" autoClose={3000} />
         </div>
     );
