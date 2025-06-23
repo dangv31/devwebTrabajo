@@ -59,10 +59,10 @@ import comedero_antiderrame_pa_firulais from './products/comedero_antiderrame_pa
 import correa_que_traduce_ladridos from './products/correa_que_traduce_ladridos.jpg';
 import cama_con_vibracion_relajante from './products/cama_con_vibracion_relajante.jpg';
 import set_de_juguetes_pa_peludos_berracos from './products/set_de_juguetes_pa_peludos_berracos.jpg';
-import tostadora_inteligente_7b from "./products/sillagamer.jpg";
-import cama_montanera_xxl from "./products/sillagamer.jpg";
-import taza_de_cafe_chinchinense from "./products/sillagamer.jpg";
-import luces_led_calenas from "./products/sillagamer.jpg";
+import tostadora_inteligente_7b from "./products/tostadora_inteligente_7b.jpg";
+import cama_montanera_xxl from "./products/cama_montanera_xxl.jpg";
+import taza_de_cafe_chinchinense from "./products/taza_de_cafe_chinchinense.jpg";
+import luces_led_calenas from "./products/luces_led_calenas.jpg";
 
 
 export const assets = {
