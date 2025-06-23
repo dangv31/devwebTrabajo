@@ -9,8 +9,11 @@ const Hero = () => {
 
     useEffect(() => {
         if (products && products.length > 0) {
-            const randomIndex = Math.floor(Math.random() * products.length);
-            setProducto(products[randomIndex]);
+            const productosConStock = products.filter(p => p.stock > 0);
+            if (productosConStock.length > 0) {
+                const randomIndex = Math.floor(Math.random() * productosConStock.length);
+                setProducto(productosConStock[randomIndex]);
+            }
         }
     }, [products]);
     if (!producto) return null;

@@ -3,6 +3,7 @@ import { ShopContext } from "../context/ShopContext.jsx";
 import { RiDeleteBin5Line } from "react-icons/ri";
 import CartTotal from "../components/CartTotal.jsx";
 import { useNavigate } from 'react-router-dom';
+import Recommendation from "../components/Recommendation.jsx";
 
 
 const Cart = () => {
@@ -133,6 +134,11 @@ const Cart = () => {
                             </button>
                             </div>
                     </div>
+                    <h1 className="font-bold text-sm text-center md:text-base text-black m-5">
+                        ¡Y ya que está empacando, mijo… mire estas joyitas pa' que no se le quede nada por fuera! Uno nunca sabe cuándo lo va a necesitar.
+                    </h1>
+                    <hr className="border-t-2 border-gray-300 mb-4" />
+                    <Recommendation/>
 
                 </>
             )}

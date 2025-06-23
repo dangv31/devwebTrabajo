@@ -53,7 +53,7 @@ const Collection = () => {
     return (
         <div className="flex flex-col gap-5 pt-10 border-t">
             <h1 className="text-2xl font-bold text-center">
-                ¡Todo en un solo toldo, mijo! Vea el combo completo que tenemos pa’ usted.
+                ¡Mire, escoja y llévese lo que más le cuadre, que aquí hay pa’ todos!
             </h1>
             <SortOptions sortBy={sortBy} setSortBy={setSortBy} />
             <div className="flex flex-col sm:flex-row gap-4">

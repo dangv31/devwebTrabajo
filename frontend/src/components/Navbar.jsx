@@ -43,7 +43,9 @@ const Navbar = () => {
 
             {!isLoginPage && (
                 <div className="flex items-center gap-4 md:gap-6 relative">
-                    <FaSearch onClick={() => setShowSearch(true)} className="w-5 cursor-pointer" />
+                    <Link to="/products" className="relative">
+                        <FaSearch onClick={() => setShowSearch(true)} className="w-5 cursor-pointer" />
+                    </Link>
                     <Link to="/products" className="relative">Productos</Link>
                     
                     {user && user.role === 'admin' && (

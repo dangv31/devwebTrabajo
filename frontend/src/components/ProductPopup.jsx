@@ -3,7 +3,7 @@ import { IoClose } from "react-icons/io5";
 import {Link} from "react-router-dom";
 
 const ProductPopup = ({ product, onClose }) => {
-  if (!product || !product.oldPrice) return null;
+    if (!product || !product.oldPrice || product.stock < 1) return null;
 
   return (
     <div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-50 w-full max-w-md bg-white rounded-lg shadow-xl p-6 text-center text-gray-800 animate-fade-in-up border-2 border-black">
