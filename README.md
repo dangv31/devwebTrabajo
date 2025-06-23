@@ -82,7 +82,3 @@ src/
 ```
 
 ---
-
-## 🧑‍🔧 Créditos
-
-Hecho con amor, sabor y picante antioqueño 💛💚❤️.
