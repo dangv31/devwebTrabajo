@@ -6,6 +6,13 @@ export const assets = {
     sillagamer,
     logo,
 };
+
+export const categories = [
+  "Tecnología", "Electrodomésticos", "Hogar", "Oficina", "Decoración",
+  "Muebles", "Salud", "Ropa", "Aseo", "Papelería", "Juguetería",
+  "Herramientas", "Cocina", "Iluminación", "Mascotas"
+];
+
 export const products = [
     {
         id: 111,

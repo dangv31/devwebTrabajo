@@ -5,6 +5,8 @@ import { useParams } from 'react-router-dom';
 import { useContext, useEffect} from 'react';
 import { ShopContext } from '../context/ShopContext';
 
+import { categories } from "../assets/assets.js";
+
 function AgregarProducto() {
   const navigate = useNavigate();
 
@@ -149,21 +151,11 @@ function AgregarProducto() {
               className="w-full border px-3 py-2 rounded"
             >
               <option value="">Seleccionar</option>
-              <option value="Tecnologia">Tecnologia</option>
-              <option value="Electrodomesticos">Electrodomesticos</option>
-              <option value="Hogar">Hogar</option>
-              <option value="Oficina">Oficina</option>
-              <option value="Decoracion">Decoracion</option>
-              <option value="Muebles">Muebles</option>
-              <option value="Salud">Salud</option>
-              <option value="Ropa">Ropa</option>
-              <option value="Aseo">Aseo</option>
-              <option value="Papeleria">Papeleria</option>
-              <option value="Jugueteria">Jugueteria</option>
-              <option value="Herramientas">Herramientas</option>
-              <option value="Cocina">Cocina</option>
-              <option value="Iluminacion">Iluminacion</option>
-              <option value="Mascotas">Mascotas</option>
+              {categories.map((cat) => (
+                <option key={cat} value={cat}>
+                  {cat}
+                </option>
+              ))}
             </select>
           </div>
         </div>
