@@ -1,10 +1,17 @@
 import {createContext, useEffect, useState} from "react";
-import { products } from '../assets/assets.js';
+import { products as productsDefault } from '../assets/assets.js';
 import { toast } from "react-toastify";
 
 export const ShopContext = createContext();
 
 const ShopContextProvider = (props) => {
+    const initialProducts = JSON.parse(localStorage.getItem('productos')) || productsDefault;
+    const [products, setProducts] = useState(initialProducts);
+
+    useEffect(() => {
+        localStorage.setItem('productos', JSON.stringify(products));
+    }, [products]);
+
     const[search, setSearch] = useState("");
     const[showSearch, setShowSearch] = useState(false);
     const[cartItems, setCartItems] = useState({});
@@ -43,10 +50,10 @@ const ShopContextProvider = (props) => {
         }
         const cantidadEnCarrito = cartItems[itemId] || 0;
         const totalSolicitado = cantidadEnCarrito + 1;
-        if (product.stock - totalSolicitado < -4) {
-            toast.error("No hay suficiente stock para agregar más unidades.");
-            return;
-        }
+        if (totalSolicitado > product.stock) {
+        toast.error("Ya no hay más unidades disponibles de este producto.");
+        return;
+    }
         const cartData = structuredClone(cartItems);
         cartData[itemId] = totalSolicitado;
         setCartItems(cartData);
@@ -100,12 +107,14 @@ const ShopContextProvider = (props) => {
     };
 
     const value = {
-        products, 
+        products,
+        setProducts, 
         search, 
         setSearch, 
         showSearch, 
         setShowSearch, 
-        cartItems, 
+        cartItems,
+        setCartItems, 
         addToCart, 
         getCartCount, 
         updateQuantity,

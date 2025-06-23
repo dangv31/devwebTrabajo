@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 
 
 const Cart = () => {
-    const { products, cartItems, updateQuantity } = useContext(ShopContext);
+    const { products, cartItems, updateQuantity, setProducts, setCartItems } = useContext(ShopContext);
     const [cartData, setCartData] = useState([]);
     const navigate = useNavigate();
     const { user } = useContext(ShopContext);
@@ -33,6 +33,11 @@ const Cart = () => {
     }, [cartItems, products]);
 
     const finalizarCompra = () => {
+        if (!user || !user.nombre) {
+            alert("Debe iniciar sesión para realizar una compra.");
+            navigate("/login");
+            return;
+        }
         if (cartData.length === 0) return;
 
         const nuevoPedido = {
@@ -52,9 +57,26 @@ const Cart = () => {
 
         localStorage.setItem("pedidos", JSON.stringify([...pedidosAnteriores, nuevoPedido]));
 
-        for (const item of cartData) {
-            updateQuantity(item.id, 0);
-        }
+        // Actualizar stock de los productos comprados
+        const productosActualizados = products.map(product => {
+            const itemComprado = cartData.find(item => item.product.id === product.id);
+            if (itemComprado) {
+                return {
+                ...product,
+                stock: product.stock - itemComprado.quantity,
+                ventas: (product.ventas || 0) + itemComprado.quantity
+                };
+            }
+            return product;
+        });
+
+        setProducts(productosActualizados);
+
+
+       setCartItems({});
+
+
+
 
         navigate("/mis-pedidos");
     };

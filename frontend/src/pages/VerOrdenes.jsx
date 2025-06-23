@@ -1,7 +1,12 @@
 import React, { useEffect, useState } from 'react';
+import { useContext } from 'react';
+import { ShopContext } from '../context/ShopContext.jsx';
+import { products as productsDefault } from '../assets/assets.js'; // Para restaurar valores originales
+
 
 const VerOrdenes = () => {
   const [ordenes, setOrdenes] = useState([]);
+  const { setProducts } = useContext(ShopContext);
 
   useEffect(() => {
     const ordenesGuardadas = JSON.parse(localStorage.getItem("pedidos")) || [];
@@ -36,6 +41,10 @@ const VerOrdenes = () => {
           onClick={() => {
             localStorage.removeItem("pedidos");
             setOrdenes([]);
+
+            // Restaurar stock y ventas
+            localStorage.setItem('productos', JSON.stringify(productsDefault));
+            setProducts(productsDefault);
           }}
           className="mb-4 bg-red-600 hover:bg-red-700 text-white px-4 py-2 cursor-pointer rounded shadow"
         >

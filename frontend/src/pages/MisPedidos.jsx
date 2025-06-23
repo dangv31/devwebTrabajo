@@ -1,12 +1,24 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
+import { ShopContext } from "../context/ShopContext.jsx";
 
 const MisPedidos = () => {
   const [pedidos, setPedidos] = useState([]);
+  const { user } = useContext(ShopContext);
 
   useEffect(() => {
     const pedidosGuardados = JSON.parse(localStorage.getItem("pedidos")) || [];
-    setPedidos(pedidosGuardados.reverse()); // Mostramos el más reciente primero
-  }, []);
+
+    if (user && user.nombre) {
+      const pedidosDelUsuario = pedidosGuardados
+        .filter(p => p.cliente === user.nombre)
+        .reverse(); // Mostramos el más reciente primero
+
+      setPedidos(pedidosDelUsuario);
+    } else {
+      setPedidos([]);
+    }
+  }, [user]);
+
 
   return (
     <div className="p-8">
