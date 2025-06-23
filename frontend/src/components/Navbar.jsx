@@ -61,18 +61,22 @@ const Navbar = () => {
                             {showProfileMenu && (
                                 <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-xl z-20 border">
                                     <div className="py-1">
-                                        <p className="px-4 py-2 text-sm text-gray-700 font-bold border-b">
-                                            ¡Hola, {user.nombre}!
-                                        </p>
-                                        <Link to="/profile" onClick={() => setShowProfileMenu(false)} className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                                            Mi Perfil
-                                        </Link>
-                                        <button onClick={handleLogout} className="cursor-pointer block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                                            Cerrar Sesión
-                                        </button>
+                                    <p className="px-4 py-2 text-sm text-gray-700 font-bold border-b">
+                                        ¡Hola, {user.nombre}!
+                                    </p>
+                                    <Link to="/profile" onClick={() => setShowProfileMenu(false)} className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                        Mi Perfil
+                                    </Link>
+                                    <Link to="/mis-pedidos" onClick={() => setShowProfileMenu(false)} className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                        Mis Pedidos
+                                    </Link>
+                                    <button onClick={handleLogout} className="cursor-pointer block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                        Cerrar Sesión
+                                    </button>
                                     </div>
                                 </div>
-                            )}
+                                )}
+
                         </div>
                     ) : (
                         <Link to="/login" className="bg-black text-white px-3 py-1 rounded text-sm">

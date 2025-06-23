@@ -2,11 +2,14 @@ import React, { useContext, useEffect, useState } from 'react';
 import { ShopContext } from "../context/ShopContext.jsx";
 import { RiDeleteBin5Line } from "react-icons/ri";
 import CartTotal from "../components/CartTotal.jsx";
+import { useNavigate } from 'react-router-dom';
 
 
 const Cart = () => {
     const { products, cartItems, updateQuantity } = useContext(ShopContext);
     const [cartData, setCartData] = useState([]);
+    const navigate = useNavigate();
+    const { user } = useContext(ShopContext);
 
     useEffect(() => {
         const tempData = [];
@@ -28,6 +31,33 @@ const Cart = () => {
 
         setCartData(tempData);
     }, [cartItems, products]);
+
+    const finalizarCompra = () => {
+        if (cartData.length === 0) return;
+
+        const nuevoPedido = {
+            cliente: user?.nombre || "Invitado",
+            id: Date.now(), // ID único
+            fecha: new Date().toISOString(),
+            estado: 'Pendiente',
+            productos: cartData.map(item => ({
+                id: item.product.id,
+                nombre: item.product.name,
+                precio: item.product.price,
+                cantidad: item.quantity
+            }))
+        };
+
+        const pedidosAnteriores = JSON.parse(localStorage.getItem("pedidos")) || [];
+
+        localStorage.setItem("pedidos", JSON.stringify([...pedidosAnteriores, nuevoPedido]));
+
+        for (const item of cartData) {
+            updateQuantity(item.id, 0);
+        }
+
+        navigate("/mis-pedidos");
+    };
 
 
     return (
@@ -72,6 +102,14 @@ const Cart = () => {
                             </div>
 
                         </div>
+                        <div className="flex justify-end mb-10">
+                            <button
+                                onClick={finalizarCompra}
+                                className="bg-[#D4A017] text-white px-4 py-2 rounded cursor-pointer hover:bg-[#B48C14]"
+                            >
+                                Finalizar compra
+                            </button>
+                            </div>
                     </div>
 
                 </>
