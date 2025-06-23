@@ -3,7 +3,7 @@ import { ShopContext } from '../context/ShopContext';
 import { useNavigate } from 'react-router-dom';
 
 function VerProductos() {
-  const { products } = useContext(ShopContext);
+  const { products, deleteProduct } = useContext(ShopContext);
   const [busqueda, setBusqueda] = useState('');
   const navigate = useNavigate();
 
@@ -52,7 +52,7 @@ function VerProductos() {
                     > 
                       Editar
                     </button>
-                    <button className="bg-black text-white px-3 py-1 cursor-pointer rounded text-sm hover:bg-gray-800 ">
+                    <button onClick={() => deleteProduct(prod.id)} className="bg-black text-white px-3 py-1 cursor-pointer rounded text-sm hover:bg-gray-800 ">
                       Eliminar
                     </button>
                   </div>

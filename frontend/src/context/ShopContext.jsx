@@ -59,6 +59,11 @@ const ShopContextProvider = (props) => {
         setProducts(productsDefault);
         toast.success("Productos restaurados a su estado original.");
     };
+    const deleteProduct = (productId) => {
+        const nuevosProductos = products.filter(p => p.id !== productId);
+        setProducts(nuevosProductos);
+        toast.success("Producto eliminado exitosamente.");
+    };
     
 
     const addToCart = async (itemId) => {
@@ -144,7 +149,8 @@ const ShopContextProvider = (props) => {
         logout,
         addProduct,
         editProduct,
-        resetProducts
+        resetProducts,
+        deleteProduct
     }
 
     return (
