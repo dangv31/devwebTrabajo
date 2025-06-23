@@ -51,6 +51,14 @@ function Admin() {
         <button onClick={resetProducts} className="bg-red-400 text-white px-4 py-2 rounded hover:bg-red-700 cursor-pointer">
             Restaurar Productos Originales
         </button>
+
+        <Link to="/admin/categorias">
+          <button className="flex items-center gap-2 bg-[#347571] text-white px-4 py-2 cursor-pointer rounded hover:bg-[#2C615E]">
+            <FaClipboardList className="text-white" /> Categorías
+          </button>
+        </Link>
+
+
         </div>
 
     </div>

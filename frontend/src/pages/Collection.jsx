@@ -56,7 +56,7 @@ const Collection = () => {
                 ¡Mire, escoja y llévese lo que más le cuadre, que aquí hay pa’ todos!
             </h1>
             <SortOptions sortBy={sortBy} setSortBy={setSortBy} />
-            <div className="flex flex-col sm:flex-row gap-4">
+            <div className="flex flex-col sm:flex-row sm:items-start gap-4">
                 <SidebarFilters filters={filters} setFilters={setFilters} showCat={true} />
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                     {filteredProducts.map((product, index) => (

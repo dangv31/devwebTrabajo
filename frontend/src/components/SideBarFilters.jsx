@@ -19,7 +19,7 @@ const SidebarFilters = ({ filters, setFilters, showCat = true }) => {
     };
 
     return (
-        <div className="border p-4 rounded w-full sm:w-64 text-sm space-y-4">
+        <div className="border p-4 rounded w-full sm:w-64 text-sm space-y-4 self-start">
             {/* Ofertas y descuentos */}
             <div>
                 <h3 className="font-semibold mb-1">Ofertas y descuentos</h3>
