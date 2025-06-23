@@ -15,6 +15,7 @@ import AgregarProducto from './pages/AgregarProducto';
 import VerProductos from './pages/VerProductos';
 import Collection from "./pages/Collection.jsx";
 import SearchBar from "./components/SearchBar.jsx";
+import AdminRoute from './components/AdminRoute.jsx';
 import { ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -32,12 +33,13 @@ const App = () => {
                 <Route path="/profile" element={<Profile/>} />
                 <Route path="/solicitar/:id" element={<SolicitarProducto />} />
 
-
-                <Route path="/admin" element={<Admin />} />
-                <Route path="/admin/agregar" element={<AgregarProducto />} />
-                <Route path="/admin/editar/:id" element={<AgregarProducto />} />
-                <Route path="/admin/productos" element={<VerProductos />} />
-                <Route path="/admin/ordenes" element={<VerOrdenes />} />
+                 <Route element={<AdminRoute />}>
+                    <Route path="/admin" element={<Admin />} />
+                    <Route path="/admin/agregar" element={<AgregarProducto />} />
+                    <Route path="/admin/editar/:id" element={<AgregarProducto />} />
+                    <Route path="/admin/productos" element={<VerProductos />} />
+                    <Route path="/admin/ordenes" element={<VerOrdenes />} />
+                </Route>
             </Routes>
             <ToastContainer position="top-center" autoClose={3000} />
         </div>
