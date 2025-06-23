@@ -27,8 +27,7 @@ const Product = () => {
             <ProductInfo product={productData} />
             <hr className="border-t-2 border-gray-300 mb-4 mt-4" />
             <h1 className="font-bold text-sm text-center md:text-base text-black m-5">
-                ¡Esto no es todo, mijo! Aquí hay más productos que excusas pa' no pagar fiado!
-            </h1>
+                Échese un ojo a estas maravillas similares, ¡ni cuenta se va a dar que no es lo que buscaba!            </h1>
             <hr className="border-t-2 border-gray-300 mb-4" />
             <Recommendation/>
         </div>
