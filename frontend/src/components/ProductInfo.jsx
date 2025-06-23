@@ -1,17 +1,17 @@
-import React, {useContext} from "react";
-import {ShopContext} from "../context/ShopContext.jsx";
+import React, { useContext } from 'react';
+import { ShopContext } from '../context/ShopContext.jsx';
 
 const ProductInfo = ({ product, showDescription = true, showButton = true }) => {
-    const {addToCart} = useContext(ShopContext);
+    const { addToCart } = useContext(ShopContext);
 
     return (
-        <div className="flex flex-col sm:flex-row border border-gray-400 rounded-lg shadow-lg bg-white">
-            {/* Texto izquierda */}
-            <div className="w-full sm:w-1/2 flex items-center justify-center py-10 sm:py-0 m-6">
-                <div className="text-[#414141]">
+        <div className="flex flex-col sm:flex-row border border-gray-400 rounded-lg shadow-lg bg-white p-4 sm:gap-6">
+            {/* Contenedor del Texto (Izquierda) */}
+            <div className="w-full sm:w-3/5 flex items-center justify-center py-10 sm:py-0">
+                <div className="text-[#414141] break-words max-w-lg">
                     <h2 className="text-xl font-bold text-black mb-2">{product.name}</h2>
                     {showDescription && (
-                        <p className="text-sm text-black mb-4">{product.description}</p>
+                        <p className="text-sm sm:text-base text-black mb-4">{product.description}</p>
                     )}
                     <div className="flex items-center gap-3 mb-4">
                         {product.oldPrice && (
@@ -30,8 +30,8 @@ const ProductInfo = ({ product, showDescription = true, showButton = true }) => 
                     </div>
                 </div>
             </div>
-            {/* Imagen derecha */}
-            <div className="w-full sm:w-1/3 flex justify-center items-center mb-4 mt-4">
+            {/* Contenedor de la Imagen (Derecha) */}
+            <div className="w-full sm:w-2/5 flex justify-center items-center">
                 <img
                     src={product.image[0]}
                     alt={product.name}
