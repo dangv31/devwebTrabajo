@@ -16,7 +16,7 @@ const Collection = () => {
     const [sortBy, setSortBy] = useState('');
     const [filters, setFilters] = useState({
         offers: new Set(),
-        price: { max: 1000000 },
+        price: { max: 20000000 },
         categories: categoriaDesdeURL ? new Set([categoriaDesdeURL]) : new Set()
     });
 
