@@ -29,6 +29,7 @@ const ShopContextProvider = (props) => {
             console.error("Error al parsear el usuario del localStorage", error);
             localStorage.removeItem('loggedInUser');
         }
+
     }, []); 
 
     const login = (userData) => {
@@ -39,6 +40,19 @@ const ShopContextProvider = (props) => {
     const logout = () => {
         setUser(null);
         localStorage.removeItem('loggedInUser');
+    };
+
+    const addProduct = (nuevoProducto) => {
+        const nuevosProductos = [...products, nuevoProducto];
+        setProducts(nuevosProductos);
+        localStorage.setItem('productos', JSON.stringify(nuevosProductos));
+    };
+    const editProduct = (productoEditado) => {
+        const actualizados = products.map(p =>
+            p.id === productoEditado.id ? productoEditado : p
+        );
+        setProducts(actualizados);
+        localStorage.setItem('productos', JSON.stringify(actualizados));
     };
     
 
@@ -122,7 +136,9 @@ const ShopContextProvider = (props) => {
         getTotalSavings,
         user,
         login,
-        logout
+        logout,
+        addProduct,
+        editProduct
     }
 
     return (

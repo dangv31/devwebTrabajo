@@ -12,7 +12,8 @@ function AgregarProducto() {
 
   const { id } = useParams();
   const isEdit = Boolean(id);
-  const { products } = useContext(ShopContext);
+  const { products, addProduct, editProduct } = useContext(ShopContext);
+
 
   const [tieneDescuento, setTieneDescuento] = useState(false);
   const [imagen, setImagen] = useState(null);
@@ -184,12 +185,42 @@ function AgregarProducto() {
         <button
           onClick={() => {
             if (isEdit) {
-              alert('Producto editado (simulado)');
-              // Aquí podés agregar lógica real para actualizarlo
+              const productoEditado = {
+                id: parseInt(id),
+                name: nombre,
+                price: tieneDescuento ? Number(precioDescuento) : Number(precio),
+                oldPrice: tieneDescuento ? Number(precio) : null,
+                stock: Number(stock),
+                category: categoria,
+                description: descripcion,
+                image: [imagen],
+                bestSeller: false,
+                ventas: 0
+              };
+
+              editProduct(productoEditado);
+              alert("Producto editado correctamente");
+              navigate('/admin');
             } else {
-              alert('Producto agregado (simulado)');
+              const nuevoProducto = {
+                id: Date.now(),
+                name: nombre,
+                price: tieneDescuento ? Number(precioDescuento) : Number(precio),
+                oldPrice: tieneDescuento ? Number(precio) : null,
+                stock: Number(stock),
+                category: categoria,
+                description: descripcion,
+                image: [imagen],
+                bestSeller: false,
+                ventas: 0
+              };
+
+              addProduct(nuevoProducto);  // desde el context
+              alert('Producto agregado correctamente');
+              navigate('/admin');
             }
-          }}
+            }
+          }
           className="bg-[#D4A017] text-white px-4 py-2 rounded cursor-pointer hover:bg-[#B48C14]"
         >
           {isEdit ? 'Guardar Cambios' : 'Agregar Producto'}
