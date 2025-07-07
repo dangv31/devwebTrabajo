@@ -20,17 +20,24 @@ public class ProductEntity {
 
     private String name;
 
-    private float price;
-
     private String description;
 
-    private float discount;
+    private int price;
 
-    @ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
-    @JoinTable(name = "product_category", joinColumns = @JoinColumn(name="product_id"),inverseJoinColumns = @JoinColumn(name="category_id"))
-    private Set<CategoryEntity> categories;
+    // discount = -1 if there is no any discount
+    private int discount;
+
+    private String imageRoute;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "category_id")
+    private CategoryEntity category;
+
+    private boolean bestSeller;
 
     private int stock;
+
+    private int sales;
 
     private boolean isEnabled;
 }

@@ -24,6 +24,6 @@ public class ShoppingCartEntity {
     private UserEntity user;
 
     @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<ProductEntity> products = new HashSet<>();
+    private Set<CartItemEntity> products = new HashSet<>();
 
 }
