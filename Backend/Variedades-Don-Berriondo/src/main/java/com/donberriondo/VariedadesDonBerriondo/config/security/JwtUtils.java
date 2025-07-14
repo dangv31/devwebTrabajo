@@ -35,7 +35,7 @@ public class JwtUtils {
                 .withSubject(username)
                 .withClaim("roles", roles)
                 .withIssuedAt(new Date())
-                .withExpiresAt(new Date(System.currentTimeMillis() + 1800000)) // 30 minutos de validez
+                .withExpiresAt(new Date(System.currentTimeMillis() + 7200000)) // 2 horas de validez
                 .sign(algorithm);
     }
 
