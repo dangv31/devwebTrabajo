@@ -72,11 +72,12 @@ public class OrderServiceImpl implements IOrderService{
 
         order.setTotalPrice(totalAmount);
 
-        // Actualizar el stock de los productos
+        // Actualizar el stock y las ventas de los productos
         for (var item : checkoutRequest.getItems()) {
             ProductEntity product = productsToUpdate.get(item.getId());
             int newStock = product.getStock() - item.getQuantity();
             product.setStock(newStock);
+            product.setSales(product.getSales() + item.getQuantity());
             productRepository.save(product);
         }
 
