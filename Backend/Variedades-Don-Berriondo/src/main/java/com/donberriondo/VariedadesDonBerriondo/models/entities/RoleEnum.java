@@ -1,6 +1,6 @@
 package com.donberriondo.VariedadesDonBerriondo.models.entities;
 
-public enum RolesEnum {
-    USUARIO,
+public enum RoleEnum {
+    USER,
     ADMIN
 }

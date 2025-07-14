@@ -22,8 +22,7 @@ public class ProductRequestDTO {
     @NotBlank(message = "La ruta de la imagen no puede estar vacía.")
     private String imageRoute;
 
-    @NotNull(message = "El ID de la categoría es obligatorio.")
-    @Positive(message = "El ID de la categoría debe ser un número positivo.")
+    @NotNull(message = "El nombre de la categoria es obligatorio.")
     private String categoryName;
 
     @NotNull(message = "")

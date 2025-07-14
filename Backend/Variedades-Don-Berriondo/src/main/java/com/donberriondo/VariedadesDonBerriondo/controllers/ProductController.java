@@ -18,11 +18,6 @@ public class ProductController {
     @Autowired
     private IProductService productService;
 
-    @GetMapping("hola")
-    public String hola(){
-        return "Hola";
-    }
-
     @GetMapping
     public ResponseEntity<List<ProductResponseDTO>> getAllProducts() {
         return ResponseEntity.ok(productService.findAllProducts());

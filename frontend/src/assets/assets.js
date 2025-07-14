@@ -1,5 +1,5 @@
-import sillagamer from './products/sillagamer.jpg';
 import logo from './logo.png';
+import sillagamer from './products/sillagamer.jpg';
 import celular_inteligente_berriondo_max_5000 from './products/celular_inteligente_berriondo_max_5000.jpg';
 import audifonos_inalambricos_berrinsound_360 from './products/audifonos_inalambricos_berrinsound_360.jpg';
 import reloj_inteligente_berritime_4g from './products/reloj_inteligente_berritime_4g.jpg';

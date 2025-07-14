@@ -24,7 +24,7 @@ public class ProductEntity {
 
     private int price;
 
-    // discount = -1 if there is no any discount
+    // discount = 0 if there is no any discount
     private int discount;
 
     private String imageRoute;

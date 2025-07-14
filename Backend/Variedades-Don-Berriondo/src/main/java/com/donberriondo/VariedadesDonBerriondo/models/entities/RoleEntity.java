@@ -5,25 +5,22 @@ import java.util.Set;
 import jakarta.persistence.*;
 import lombok.*;
 
-@Setter
-@Getter
+@Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@EqualsAndHashCode
 @Table(name = "roles")
-
 public class RoleEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "name")
     @Enumerated(EnumType.STRING)
-    private RolesEnum rolesEnum;
+    @Column(unique = true, nullable = false)
+    private RoleEnum name;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinTable(name = "roles_permissions",joinColumns = @JoinColumn(name="role_id"), inverseJoinColumns = @JoinColumn(name="permission_id"))
-    private Set<PermissionEntity> permissions;
+    public RoleEntity(RoleEnum name) {
+        this.name = name;
+    }
 }
