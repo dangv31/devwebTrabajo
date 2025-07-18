@@ -8,16 +8,21 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/orders")
 public class OrderController {
     @Autowired
     private IOrderService orderService;
+
+    @GetMapping
+    public ResponseEntity<List<OrderConfirmationDTO>> getAllOrders() {
+        List<OrderConfirmationDTO> orders = orderService.getAllOrders();
+        return ResponseEntity.ok(orders);
+    }
 
     @PostMapping("/checkout")
     public ResponseEntity<OrderConfirmationDTO> checkout(@Valid @RequestBody CheckoutRequestDTO checkoutRequest) throws NoStockException {
