@@ -110,6 +110,7 @@ public class OrderServiceImpl implements IOrderService{
         );
     }
 
+    @Transactional(readOnly = true)
     @Override
     public List<OrderConfirmationDTO> getAllOrders() {
         List<OrderEntity> orders = orderRepository.findAll();
