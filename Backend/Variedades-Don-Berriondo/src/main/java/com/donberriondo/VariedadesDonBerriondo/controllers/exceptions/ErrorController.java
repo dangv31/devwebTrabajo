@@ -34,7 +34,7 @@ public class ErrorController {
     @ExceptionHandler(SQLIntegrityConstraintViolationException.class)
     public ResponseEntity<Map<String, String>> handleSQLIntegrityConstraintViolationException(SQLIntegrityConstraintViolationException ex) {
         Map<String, String> error = new HashMap<>();
-        error.put("error", "Datos existentes o conflicto de integridad: ");
+        error.put("error", "Datos existentes o conflicto de integridad.");
         return new ResponseEntity<>(error, HttpStatus.CONFLICT);
     }
 
