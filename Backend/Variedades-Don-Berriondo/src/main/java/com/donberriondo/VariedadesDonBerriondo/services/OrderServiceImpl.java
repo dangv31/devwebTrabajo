@@ -21,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class OrderServiceImpl implements IOrderService{
@@ -108,4 +109,36 @@ public class OrderServiceImpl implements IOrderService{
                 itemResponses
         );
     }
+
+    @Override
+    public List<OrderConfirmationDTO> getAllOrders() {
+        List<OrderEntity> orders = orderRepository.findAll();
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(
+                "d 'de' MMM 'de' yyyy, hh:mm a",
+                new Locale.Builder().setLanguage("es").setRegion("CO").build()
+        );
+
+        return orders.stream()
+                .map(order -> {
+                    List<OrderDetailResponseDTO> itemResponses = order.getOrderDetails().stream()
+                            .map(detail -> new OrderDetailResponseDTO(
+                                    detail.getProduct().getName(),
+                                    detail.getQuantity(),
+                                    detail.getPriceAtPurchase()
+                            )).collect(Collectors.toList());
+
+                    String formattedDate = order.getOrderDate().format(formatter);
+
+                    return new OrderConfirmationDTO(
+                            order.getId(),
+                            formattedDate,
+                            order.getStatus(),
+                            order.getTotalPrice(),
+                            itemResponses
+                    );
+                })
+                .collect(Collectors.toList());
+    }
 }
+
