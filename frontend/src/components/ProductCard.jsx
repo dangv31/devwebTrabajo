@@ -42,7 +42,7 @@ const ProductCard = ({ product }) => {
 
     return (
         <div className="border border-gray-400 rounded-lg shadow-lg bg-white p-4 flex flex-col items-center text-center">
-            <img src={product.image} alt={product.name} className="w-full h-32 object-contain mb-4"/>
+            <img src={product.imageRoute} alt={product.name} className="w-full h-32 object-contain mb-4"/>
             <p className="text-sm font-semibold">{product.name}</p>
 
             <div className="flex items-center gap-2 mt-1">

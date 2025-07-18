@@ -25,7 +25,6 @@ const ShopContextProvider = (props) => {
                 }
             } catch (error) {
                 console.error("❌ Error al obtener productos:", error);
-                setProducts(productsDefault); // fallback
             }
         };
 

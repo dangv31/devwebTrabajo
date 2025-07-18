@@ -33,7 +33,7 @@ const ProductInfo = ({ product, showDescription = true, showButton = true }) => 
             {/* Contenedor de la Imagen (Derecha) */}
             <div className="w-full sm:w-2/5 flex justify-center items-center">
                 <img
-                    src={product.image}
+                    src={product.imageRoute}
                     alt={product.name}
                     className="w-80 h-80 object-contain"
                 />
