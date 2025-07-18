@@ -5,12 +5,35 @@ import { toast } from "react-toastify";
 export const ShopContext = createContext();
 
 const ShopContextProvider = (props) => {
-    const initialProducts = JSON.parse(localStorage.getItem('productos')) || productsDefault;
-    const [products, setProducts] = useState(initialProducts);
+    const [products, setProducts] = useState([]);
 
     useEffect(() => {
-        localStorage.setItem('productos', JSON.stringify(products));
-    }, [products]);
+        const fetchProductos = async () => {
+            try {
+                const response = await fetch("http://localhost:8080/products"); // ← Ajusta URL si usas puerto diferente
+                if (!response.ok) throw new Error("Error en la respuesta del servidor");
+
+                const data = await response.json();
+
+                // Confirmar que data es un array
+                if (Array.isArray(data)) {
+                    console.log("✅ Productos recibidos del backend:", data);
+                    setProducts(data);
+                    localStorage.setItem('productos', JSON.stringify(data));
+                } else {
+                    console.error("⚠️ La respuesta del backend no es un array");
+                }
+            } catch (error) {
+                console.error("❌ Error al obtener productos:", error);
+                setProducts(productsDefault); // fallback
+            }
+        };
+
+        fetchProductos();
+    }, []);
+
+
+
 
     const[search, setSearch] = useState("");
     const[showSearch, setShowSearch] = useState(false);
