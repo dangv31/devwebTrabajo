@@ -98,7 +98,7 @@ const Cart = () => {
                         {cartData.map((item, index) => (
                             <div key={index} className="py-4 border-gray-300 border-t border-b text-gray-800 grid grid-cols-[4fr_0.5fr_0.5fr] sm:grid-cols-[4fr_2fr_0.5fr] items-center gap-4">
                                 <div className="flex items-start gap-6">
-                                    <img className="w-16 sm:w-20" src={item.product.image[0]} alt="" />
+                                    <img className="w-16 sm:w-20" src={item.product.imageRoute} alt="" />
                                     <div>
                                         <p className="text-xs sm:text-lg font-medium">{item.product.name}</p>
                                         <div className="flex items-center gap-5 mt-2">
