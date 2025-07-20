@@ -1,9 +1,10 @@
-package com.donberriondo.VariedadesDonBerriondo.services;
+package com.donberriondo.VariedadesDonBerriondo.services.implementations;
 
 import com.donberriondo.VariedadesDonBerriondo.models.dtos.response.OrderDetailResponseDTO;
 import com.donberriondo.VariedadesDonBerriondo.models.entities.UserEntity;
 import com.donberriondo.VariedadesDonBerriondo.models.exceptions.NoStockException;
 import com.donberriondo.VariedadesDonBerriondo.repositories.UserRepository;
+import com.donberriondo.VariedadesDonBerriondo.services.IOrderService;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
@@ -24,7 +25,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
-public class OrderServiceImpl implements IOrderService{
+public class OrderServiceImpl implements IOrderService {
     @Autowired
     private ProductRepository productRepository;
 

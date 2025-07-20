@@ -1,4 +1,4 @@
-package com.donberriondo.VariedadesDonBerriondo.services;
+package com.donberriondo.VariedadesDonBerriondo.services.implementations;
 
 import com.donberriondo.VariedadesDonBerriondo.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;

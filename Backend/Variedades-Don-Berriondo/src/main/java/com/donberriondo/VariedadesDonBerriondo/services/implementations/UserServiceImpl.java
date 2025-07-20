@@ -1,10 +1,11 @@
-package com.donberriondo.VariedadesDonBerriondo.services;
+package com.donberriondo.VariedadesDonBerriondo.services.implementations;
 
 import com.donberriondo.VariedadesDonBerriondo.models.mappers.UserMapper;
 import com.donberriondo.VariedadesDonBerriondo.models.dtos.request.UserProfileUpdateRequestDTO;
 import com.donberriondo.VariedadesDonBerriondo.models.dtos.response.UserProfileResponseDTO;
 import com.donberriondo.VariedadesDonBerriondo.models.entities.UserEntity;
 import com.donberriondo.VariedadesDonBerriondo.repositories.UserRepository;
+import com.donberriondo.VariedadesDonBerriondo.services.IUserService;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -12,7 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-public class UserServiceImpl implements IUserService{
+public class UserServiceImpl implements IUserService {
     @Autowired
     private UserRepository userRepository;
 

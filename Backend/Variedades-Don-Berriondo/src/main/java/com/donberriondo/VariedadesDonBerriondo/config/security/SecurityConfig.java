@@ -42,10 +42,11 @@ public class SecurityConfig {
                     auth.requestMatchers(HttpMethod.POST, "/products", "/categories").hasRole("ADMIN");
                     auth.requestMatchers(HttpMethod.PUT, "/products/**", "/categories").hasRole("ADMIN");
                     auth.requestMatchers(HttpMethod.DELETE, "/products/**", "/categories").hasRole("ADMIN");
-                    auth.requestMatchers(HttpMethod.GET, "/orders").hasRole("ADMIN");
+                    auth.requestMatchers(HttpMethod.GET, "/orders", "/products/requests").hasRole("ADMIN");
 
                     // Endpoints de USUARIO
                     auth.requestMatchers("/orders/checkout").hasRole("USER");
+                    auth.requestMatchers(HttpMethod.GET, "/products/requests").hasRole("USER");
 
                     // Endpoints de USUARIO y ADMIN
                     auth.requestMatchers("/users/profile").hasAnyRole("USER", "ADMIN");

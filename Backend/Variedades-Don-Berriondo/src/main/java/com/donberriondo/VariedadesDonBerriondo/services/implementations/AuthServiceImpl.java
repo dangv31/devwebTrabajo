@@ -1,4 +1,4 @@
-package com.donberriondo.VariedadesDonBerriondo.services;
+package com.donberriondo.VariedadesDonBerriondo.services.implementations;
 
 import com.donberriondo.VariedadesDonBerriondo.models.dtos.request.AuthLoginRequest;
 import com.donberriondo.VariedadesDonBerriondo.models.dtos.request.AuthRegisterRequest;
@@ -9,6 +9,7 @@ import com.donberriondo.VariedadesDonBerriondo.models.entities.RoleEnum;
 import com.donberriondo.VariedadesDonBerriondo.repositories.RoleRepository;
 import com.donberriondo.VariedadesDonBerriondo.repositories.UserRepository;
 import com.donberriondo.VariedadesDonBerriondo.config.security.JwtUtils;
+import com.donberriondo.VariedadesDonBerriondo.services.IAuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -19,7 +20,7 @@ import org.springframework.stereotype.Service;
 import java.util.Set;
 
 @Service
-public class AuthServiceImpl implements IAuthService{
+public class AuthServiceImpl implements IAuthService {
     @Autowired
     private AuthenticationManager authenticationManager;
     @Autowired

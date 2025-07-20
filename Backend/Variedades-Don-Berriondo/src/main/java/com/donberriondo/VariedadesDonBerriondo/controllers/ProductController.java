@@ -1,8 +1,11 @@
 package com.donberriondo.VariedadesDonBerriondo.controllers;
 
+import com.donberriondo.VariedadesDonBerriondo.models.dtos.request.ProductRequestCreateDTO;
 import com.donberriondo.VariedadesDonBerriondo.models.dtos.request.ProductRequestDTO;
+import com.donberriondo.VariedadesDonBerriondo.models.dtos.response.ProductRequestResponseDTO;
 import com.donberriondo.VariedadesDonBerriondo.models.dtos.response.ProductResponseDTO;
 import com.donberriondo.VariedadesDonBerriondo.models.entities.ProductEntity;
+import com.donberriondo.VariedadesDonBerriondo.services.IProductRequestService;
 import com.donberriondo.VariedadesDonBerriondo.services.IProductService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +20,8 @@ import java.util.List;
 public class ProductController {
     @Autowired
     private IProductService productService;
+    @Autowired
+    private IProductRequestService productRequestService;
 
     @GetMapping
     public ResponseEntity<List<ProductResponseDTO>> getAllProducts() {
@@ -44,5 +49,16 @@ public class ProductController {
         }
         productService.deleteProduct(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/requests")
+    public ResponseEntity<Void> createRequest(@Valid @RequestBody ProductRequestCreateDTO requestDTO) {
+        productRequestService.createProductRequest(requestDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
+    }
+
+    @GetMapping("/requests")
+    public ResponseEntity<List<ProductRequestResponseDTO>> getAllRequests() {
+        return ResponseEntity.ok(productRequestService.getAllProductRequests());
     }
 }

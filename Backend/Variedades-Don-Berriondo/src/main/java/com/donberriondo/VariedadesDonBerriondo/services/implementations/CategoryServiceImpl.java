@@ -1,4 +1,4 @@
-package com.donberriondo.VariedadesDonBerriondo.services;
+package com.donberriondo.VariedadesDonBerriondo.services.implementations;
 
 import com.donberriondo.VariedadesDonBerriondo.models.dtos.request.CategoryRequestDTO;
 import com.donberriondo.VariedadesDonBerriondo.models.dtos.response.CategoryResponseDTO;
@@ -6,6 +6,7 @@ import com.donberriondo.VariedadesDonBerriondo.models.entities.CategoryEntity;
 import com.donberriondo.VariedadesDonBerriondo.models.mappers.CategoryMapper;
 import com.donberriondo.VariedadesDonBerriondo.repositories.CategoryRepository;
 import com.donberriondo.VariedadesDonBerriondo.repositories.ProductRepository;
+import com.donberriondo.VariedadesDonBerriondo.services.ICategoryService;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -17,7 +18,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
-public class CategoryServiceImpl implements ICategoryService{
+public class CategoryServiceImpl implements ICategoryService {
 
     @Autowired
     private CategoryRepository categoryRepository;

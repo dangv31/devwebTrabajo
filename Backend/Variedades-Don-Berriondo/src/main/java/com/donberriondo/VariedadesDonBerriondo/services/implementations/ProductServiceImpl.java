@@ -1,4 +1,4 @@
-package com.donberriondo.VariedadesDonBerriondo.services;
+package com.donberriondo.VariedadesDonBerriondo.services.implementations;
 
 import com.donberriondo.VariedadesDonBerriondo.models.dtos.request.ProductRequestDTO;
 import com.donberriondo.VariedadesDonBerriondo.models.dtos.response.ProductResponseDTO;
@@ -7,6 +7,7 @@ import com.donberriondo.VariedadesDonBerriondo.models.entities.ProductEntity;
 import com.donberriondo.VariedadesDonBerriondo.models.mappers.ProductMapper;
 import com.donberriondo.VariedadesDonBerriondo.repositories.CategoryRepository;
 import com.donberriondo.VariedadesDonBerriondo.repositories.ProductRepository;
+import com.donberriondo.VariedadesDonBerriondo.services.IProductService;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

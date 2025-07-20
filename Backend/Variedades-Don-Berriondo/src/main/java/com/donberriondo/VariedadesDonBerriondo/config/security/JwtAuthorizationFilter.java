@@ -2,7 +2,7 @@ package com.donberriondo.VariedadesDonBerriondo.config.security;
 
 import org.springframework.web.filter.OncePerRequestFilter;
 import com.auth0.jwt.interfaces.DecodedJWT;
-import com.donberriondo.VariedadesDonBerriondo.services.UserDetailsServiceImpl;
+import com.donberriondo.VariedadesDonBerriondo.services.implementations.UserDetailsServiceImpl;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
