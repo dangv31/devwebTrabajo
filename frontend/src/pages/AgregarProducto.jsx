@@ -4,15 +4,26 @@ import { useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import { useContext, useEffect} from 'react';
 import { ShopContext } from '../context/ShopContext';
+import { AuthContext } from "../context/AuthContext";
 
-import { categories } from "../assets/assets.js";
 
 function AgregarProducto() {
+  const { token } = useContext(AuthContext);
+
   const navigate = useNavigate();
 
   const { id } = useParams();
   const isEdit = Boolean(id);
   const { products, addProduct, editProduct } = useContext(ShopContext);
+
+  const [categorias, setCategorias] = useState([]);
+
+  useEffect(() => {
+    fetch("http://localhost:8080/categories")
+      .then(res => res.json())
+      .then(data => setCategorias(data))
+      .catch(err => console.error("Error al obtener categorías:", err));
+  }, []);
 
 
   const [tieneDescuento, setTieneDescuento] = useState(false);
@@ -151,10 +162,10 @@ function AgregarProducto() {
               onChange={e => setCategoria(e.target.value)}
               className="w-full border px-3 py-2 rounded"
             >
-              <option value="">Seleccionar</option>
-              {categories.map((cat) => (
-                <option key={cat} value={cat}>
-                  {cat}
+              <option value="">Seleccione una categoría</option>
+              {categorias.map((cat) => (
+                <option key={cat.id} value={cat.name}>
+                  {cat.name}
                 </option>
               ))}
             </select>
@@ -185,39 +196,75 @@ function AgregarProducto() {
         <button
           onClick={() => {
             if (isEdit) {
-              const productoEditado = {
-                id: parseInt(id),
-                name: nombre,
-                price: tieneDescuento ? Number(precioDescuento) : Number(precio),
-                oldPrice: tieneDescuento ? Number(precio) : null,
-                stock: Number(stock),
-                category: categoria,
-                description: descripcion,
-                image: [imagen],
-                bestSeller: false,
-                ventas: 0
-              };
+                const productoParaEditar = {
+                  name: nombre,
+                  description: descripcion,
+                  price: Number(precio),
+                  discount: tieneDescuento ? Number(precioDescuento) : 0,
+                  imageRoute: "/images/products/imagen_ejemplo.jpg", // Cambiar cuando subas imágenes reales
+                  categoryName: categoria,
+                  bestSeller: false,
+                  stock: Number(stock),
+                };
 
-              editProduct(productoEditado);
-              alert("Producto editado correctamente");
-              navigate('/admin');
+                fetch(`http://localhost:8080/products/${id}`, {
+                  method: "PUT",
+                  headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`,
+                  },
+                  body: JSON.stringify(productoParaEditar),
+                })
+                  .then((res) => {
+                    if (!res.ok) throw new Error("Error al editar el producto");
+                    return res.json();
+                  })
+                  .then(() => {
+                    alert("Producto editado correctamente");
+                    navigate("/admin");
+                  })
+                  .catch((err) => {
+                    console.error(err);
+                    alert("Hubo un problema al editar el producto");
+                  });
+
             } else {
-              const nuevoProducto = {
-                id: Date.now(),
+              if (!nombre || !precio || !categoria || !stock) {
+                alert("Por favor complete todos los campos obligatorios.");
+                return;
+              }
+
+              const productoParaEnviar = {
                 name: nombre,
-                price: tieneDescuento ? Number(precioDescuento) : Number(precio),
-                oldPrice: tieneDescuento ? Number(precio) : null,
-                stock: Number(stock),
-                category: categoria,
                 description: descripcion,
-                image: [imagen],
+                price: Number(precio),
+                discount: tieneDescuento ? Number(precioDescuento) : 0,
+                imageRoute: "/images/products/imagen_ejemplo.jpg", // Ajusta esto si subes imágenes
+                categoryName: categoria,
                 bestSeller: false,
-                ventas: 0
+                stock: Number(stock)
               };
 
-              addProduct(nuevoProducto);  // desde el context
-              alert('Producto agregado correctamente');
-              navigate('/admin');
+              fetch("http://localhost:8080/products", {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                  Authorization: `Bearer ${token}`,
+                },
+                body: JSON.stringify(productoParaEnviar)
+              })
+                .then(res => {
+                  if (!res.ok) throw new Error("Error al agregar el producto");
+                  return res.json();
+                })
+                .then(() => {
+                  alert("Producto agregado correctamente");
+                  navigate("/admin");
+                })
+                .catch(err => {
+                  console.error(err);
+                  alert("Hubo un problema al agregar el producto");
+                });
             }
             }
           }

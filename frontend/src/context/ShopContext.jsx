@@ -1,11 +1,15 @@
 import {createContext, useEffect, useState} from "react";
 import { products as productsDefault } from '../assets/assets.js';
 import { toast } from "react-toastify";
+import { AuthContext } from "./AuthContext"; 
+import { useContext } from "react";
 
 export const ShopContext = createContext();
 
 const ShopContextProvider = (props) => {
     const [products, setProducts] = useState([]);
+    const { token } = useContext(AuthContext);
+
 
     useEffect(() => {
         fetchProducts();
@@ -70,11 +74,39 @@ const ShopContextProvider = (props) => {
         setProducts(productsDefault);
         toast.success("Productos restaurados a su estado original.");
     };
-    const deleteProduct = (productId) => {
-        const nuevosProductos = products.filter(p => p.id !== productId);
-        setProducts(nuevosProductos);
-        toast.success("Producto eliminado exitosamente.");
+    const deleteProduct = async (productId) => {
+        if (!token) {
+            toast.error("No estás autenticado.");
+            return;
+        }
+
+        try {
+            const res = await fetch(`http://localhost:8080/products/${productId}`, {
+                method: "DELETE",
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                }
+            });
+
+            if (!res.ok) {
+                if (res.status === 403) {
+                    toast.error("No tienes permisos para eliminar este producto.");
+                } else {
+                    toast.error("No se pudo eliminar el producto.");
+                }
+                return;
+            }
+
+            const nuevosProductos = products.filter(p => p.id !== productId);
+            setProducts(nuevosProductos);
+            toast.success("Producto eliminado exitosamente.");
+
+        } catch (error) {
+            console.error("Error al eliminar el producto:", error);
+            toast.error("Error de red al eliminar el producto.");
+        }
     };
+
     
 
     const addToCart = async (itemId) => {
