@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 const ProductCard = ({ product }) => {
     const navigate = useNavigate();
-    const discount = product.oldPrice && product.oldPrice > product.price;
+    const discount = product.discount && product.discount > product.price;
 
     const handleClick = () => {
         navigate(`/product/${product.id}`);
@@ -48,7 +48,7 @@ const ProductCard = ({ product }) => {
             <div className="flex items-center gap-2 mt-1">
                 {discount && (
                     <span className="line-through text-gray-500 text-sm">
-                        ${product.oldPrice.toLocaleString()}
+                        ${product.price.toLocaleString()}
                     </span>
                 )}
                 <span className="text-sm font-bold text-black">

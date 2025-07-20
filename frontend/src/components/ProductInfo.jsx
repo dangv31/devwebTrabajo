@@ -14,9 +14,9 @@ const ProductInfo = ({ product, showDescription = true, showButton = true }) => 
                         <p className="text-sm sm:text-base text-black mb-4">{product.description}</p>
                     )}
                     <div className="flex items-center gap-3 mb-4">
-                        {product.oldPrice && (
+                        {product.discount && (
                             <span className="line-through text-gray-500 text-sm">
-                                ${product.oldPrice.toLocaleString()}
+                                ${product.price.toLocaleString()}
                             </span>
                         )}
                         <span className="font-bold text-black text-lg">
