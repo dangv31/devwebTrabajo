@@ -12,13 +12,11 @@ const AuthProvider = ({ children }) => {
         if (token) {
             const decoded = jwtDecode(token);
             if (decoded.exp < Date.now() / 1000) {
-                logout(); // Token expirado
+                logout();
             } else {
                 localStorage.setItem("token", token);
-                // Si ya hay user cargado, no lo vuelvas a pedir
                 if (!user) {
                     if (decoded?.sub === 'admin@berriondo.com') {
-                        // Ya es admin, y lo manejamos desde login
                         return;
                     } else {
                         fetchUserProfile(token);

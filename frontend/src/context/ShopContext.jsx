@@ -8,19 +8,7 @@ const ShopContextProvider = (props) => {
     const [products, setProducts] = useState([]);
 
     useEffect(() => {
-        const fetchProductos = async () => {
-            try {
-                const response = await fetch("http://localhost:8080/products"); // ← Ajusta URL si usas puerto diferente
-                if (!response.ok) throw new Error("Error en la respuesta del servidor");
-                const data = await response.json();
-                setProducts(data);
-                localStorage.setItem('productos', JSON.stringify(data));
-            } catch (error) {
-                console.error("Error al obtener productos:", error);
-            }
-        };
-
-        fetchProductos();
+        fetchProducts();
     }, []);
 
 
@@ -65,6 +53,17 @@ const ShopContextProvider = (props) => {
         );
         setProducts(actualizados);
         localStorage.setItem('productos', JSON.stringify(actualizados));
+    };
+    const fetchProducts = async () => {
+        try {
+            const response = await fetch("http://localhost:8080/products"); // ← Ajusta URL si usas puerto diferente
+            if (!response.ok) throw new Error("Error en la respuesta del servidor");
+            const data = await response.json();
+            setProducts(data);
+            localStorage.setItem('productos', JSON.stringify(data));
+        } catch (error) {
+            console.error("Error al obtener productos:", error);
+        }
     };
     const resetProducts = () => {
         localStorage.removeItem('productos');
@@ -162,7 +161,8 @@ const ShopContextProvider = (props) => {
         addProduct,
         editProduct,
         resetProducts,
-        deleteProduct
+        deleteProduct,
+        fetchProducts
     }
 
     return (
