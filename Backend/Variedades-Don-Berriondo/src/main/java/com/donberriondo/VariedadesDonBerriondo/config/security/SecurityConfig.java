@@ -47,6 +47,7 @@ public class SecurityConfig {
                     // Endpoints de USUARIO
                     auth.requestMatchers("/orders/checkout").hasRole("USER");
                     auth.requestMatchers(HttpMethod.GET, "/products/requests").hasRole("USER");
+                    auth.requestMatchers(HttpMethod.GET, "/orders/my-orders").hasRole("USER");
 
                     // Endpoints de USUARIO y ADMIN
                     auth.requestMatchers("/users/profile").hasAnyRole("USER", "ADMIN");

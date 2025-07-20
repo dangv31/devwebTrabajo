@@ -114,33 +114,48 @@ public class OrderServiceImpl implements IOrderService {
     @Transactional(readOnly = true)
     @Override
     public List<OrderConfirmationDTO> getAllOrders() {
-        List<OrderEntity> orders = orderRepository.findAll();
+        return orderRepository.findAll()
+                .stream()
+                .map(this::mapOrderToDto)
+                .collect(Collectors.toList());
+    }
 
+    @Override
+    @Transactional(readOnly = true)
+    public List<OrderConfirmationDTO> findOrdersByCurrentUser() {
+        String userEmail = SecurityContextHolder.getContext().getAuthentication().getName();
+
+        UserEntity currentUser = userRepository.findByEmail(userEmail)
+                .orElseThrow(() -> new RuntimeException("Usuario autenticado no encontrado."));
+
+        return orderRepository.findByUser(currentUser)
+                .stream()
+                .map(this::mapOrderToDto)
+                .collect(Collectors.toList());
+    }
+
+    private OrderConfirmationDTO mapOrderToDto(OrderEntity order) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern(
                 "d 'de' MMM 'de' yyyy, hh:mm a",
                 new Locale.Builder().setLanguage("es").setRegion("CO").build()
         );
 
-        return orders.stream()
-                .map(order -> {
-                    List<OrderDetailResponseDTO> itemResponses = order.getOrderDetails().stream()
-                            .map(detail -> new OrderDetailResponseDTO(
-                                    detail.getProduct().getName(),
-                                    detail.getQuantity(),
-                                    detail.getPriceAtPurchase()
-                            )).collect(Collectors.toList());
+        List<OrderDetailResponseDTO> itemResponses = order.getOrderDetails().stream()
+                .map(detail -> new OrderDetailResponseDTO(
+                        detail.getProduct().getName(),
+                        detail.getQuantity(),
+                        detail.getPriceAtPurchase()
+                )).collect(Collectors.toList());
 
-                    String formattedDate = order.getOrderDate().format(formatter);
+        String formattedDate = order.getOrderDate().format(formatter);
 
-                    return new OrderConfirmationDTO(
-                            order.getId(),
-                            formattedDate,
-                            order.getStatus(),
-                            order.getTotalPrice(),
-                            itemResponses
-                    );
-                })
-                .collect(Collectors.toList());
+        return new OrderConfirmationDTO(
+                order.getId(),
+                formattedDate,
+                order.getStatus(),
+                order.getTotalPrice(),
+                itemResponses
+        );
     }
 }
 

@@ -8,6 +8,6 @@ import java.util.List;
 
 public interface IOrderService {
     OrderConfirmationDTO processOrder(CheckoutRequestDTO checkoutRequest) throws NoStockException;
-
     List<OrderConfirmationDTO> getAllOrders();
+    List<OrderConfirmationDTO> findOrdersByCurrentUser();
 }

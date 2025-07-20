@@ -29,4 +29,10 @@ public class OrderController {
         OrderConfirmationDTO confirmation = orderService.processOrder(checkoutRequest);
         return new ResponseEntity<>(confirmation, HttpStatus.CREATED);
     }
+
+    @GetMapping("/my-orders")
+    public ResponseEntity<List<OrderConfirmationDTO>> getMyOrders() {
+        List<OrderConfirmationDTO> orders = orderService.findOrdersByCurrentUser();
+        return ResponseEntity.ok(orders);
+    }
 }
