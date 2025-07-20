@@ -40,12 +40,15 @@ public class SecurityConfig {
 
                     // Endpoints de ADMIN
                     auth.requestMatchers(HttpMethod.POST, "/products", "/categories").hasRole("ADMIN");
-                    auth.requestMatchers(HttpMethod.PUT, "/products/**").hasRole("ADMIN");
-                    auth.requestMatchers(HttpMethod.DELETE, "/products/**").hasRole("ADMIN");
+                    auth.requestMatchers(HttpMethod.PUT, "/products/**", "/categories").hasRole("ADMIN");
+                    auth.requestMatchers(HttpMethod.DELETE, "/products/**", "/categories").hasRole("ADMIN");
                     auth.requestMatchers(HttpMethod.GET, "/orders").hasRole("ADMIN");
 
                     // Endpoints de USUARIO
                     auth.requestMatchers("/orders/checkout").hasRole("USER");
+
+                    // Endpoints de USUARIO y ADMIN
+                    auth.requestMatchers("/users/profile").hasAnyRole("USER", "ADMIN");
 
                     // Resto de endpoints deben estar autenticados
                     auth.anyRequest().authenticated();

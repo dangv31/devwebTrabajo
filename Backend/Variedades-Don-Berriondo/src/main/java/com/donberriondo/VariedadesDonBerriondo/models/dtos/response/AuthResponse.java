@@ -6,5 +6,7 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class AuthResponse{
+    private String username;
     private String jwt;
+    private boolean isAdmin;
 }

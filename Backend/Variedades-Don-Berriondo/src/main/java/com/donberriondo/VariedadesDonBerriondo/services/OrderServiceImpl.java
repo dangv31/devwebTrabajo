@@ -55,7 +55,7 @@ public class OrderServiceImpl implements IOrderService{
             ProductEntity product = productRepository.findById(item.getId())
                     .orElseThrow(() -> new EntityNotFoundException("Producto no encontrado con ID: " + item.getId()));
 
-            if (product.getStock() < item.getQuantity()) {
+            if (product.getStock() < item.getQuantity() && product.getStock() < -4) {
                 throw new NoStockException("Stock insuficiente para el producto: " + product.getName());
             }
 

@@ -35,8 +35,16 @@ public class AuthServiceImpl implements IAuthService{
     public AuthResponse loginUser(AuthLoginRequest request) {
         Authentication authentication = new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword());
         authenticationManager.authenticate(authentication);
+        String username = userRepository.findByEmail(request.getUsername())
+                .map(UserEntity::getName)
+                .orElse("Usuario no encontrado");
         String token = jwtUtils.createToken(authentication);
-        return new AuthResponse(token);
+        boolean isAdmin = userRepository.findByEmail(request.getUsername())
+                .map(UserEntity::getRoles)
+                .orElse(Set.of())
+                .stream()
+                .anyMatch(role -> role.getName() == RoleEnum.ADMIN);
+        return new AuthResponse(username, token, isAdmin);
     }
 
     @Override
