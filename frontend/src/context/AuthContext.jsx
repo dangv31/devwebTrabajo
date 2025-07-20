@@ -8,7 +8,6 @@ const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
     const [token, setToken] = useState(localStorage.getItem("token"));
 
-    // 🟨 Decodificar token para comprobar expiración
     useEffect(() => {
         if (token) {
             const decoded = jwtDecode(token);
@@ -32,42 +31,42 @@ const AuthProvider = ({ children }) => {
         }
     }, [token]);
 
-    // ✅ Función para iniciar sesión
     const login = async (credentials) => {
         try {
             const res = await axios.post("http://localhost:8080/auth/login", credentials);
-            const { jwt, admin, username } = res.data;
+            const { jwt, admin } = res.data;
 
             setToken(jwt);
 
-            if (admin) {
-                // Admin: ya viene info básica
-                setUser({ admin: true, nombre: username });
-            } else {
-                await fetchUserProfile(jwt); // Usuario normal
-            }
+            setUser({ admin });
+
+            await fetchUserProfile(jwt);
+
         } catch (err) {
             console.error("Error en login:", err);
             throw err;
         }
     };
 
-    // ✅ Obtener perfil de usuario normal
+
     const fetchUserProfile = async (jwt) => {
         try {
-            const res = await axios.get("http://localhost:8080/user/profile", {
+            const res = await axios.get("http://localhost:8080/users/profile", {
                 headers: { Authorization: `Bearer ${jwt}` }
             });
 
-            const { nombre } = res.data;
-            setUser({ admin: false, nombre });
+            setUser(prev => ({
+                ...prev,
+                ...res.data
+            }));
+
         } catch (err) {
             console.error("Error al obtener perfil:", err);
             logout();
         }
     };
 
-    // ✅ Cerrar sesión
+
     const logout = () => {
         setToken(null);
         setUser(null);
