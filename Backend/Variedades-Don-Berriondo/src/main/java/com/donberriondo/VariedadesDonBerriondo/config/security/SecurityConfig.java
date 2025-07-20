@@ -37,12 +37,14 @@ public class SecurityConfig {
                     auth.requestMatchers("/auth/**").permitAll();
                     auth.requestMatchers(HttpMethod.GET, "/products/**").permitAll();
                     auth.requestMatchers(HttpMethod.GET, "/categories/**").permitAll();
+                    auth.requestMatchers("/uploads/**").permitAll();
 
                     // Endpoints de ADMIN
                     auth.requestMatchers(HttpMethod.POST, "/products", "/categories").hasRole("ADMIN");
                     auth.requestMatchers(HttpMethod.PUT, "/products/**", "/categories").hasRole("ADMIN");
                     auth.requestMatchers(HttpMethod.DELETE, "/products/**", "/categories").hasRole("ADMIN");
                     auth.requestMatchers(HttpMethod.GET, "/orders", "/products/requests").hasRole("ADMIN");
+                    auth.requestMatchers(HttpMethod.POST, "/api/files/upload").hasRole("ADMIN");
 
                     // Endpoints de USUARIO
                     auth.requestMatchers("/orders/checkout").hasRole("USER");
