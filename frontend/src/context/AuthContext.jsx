@@ -70,9 +70,31 @@ const AuthProvider = ({ children }) => {
         setUser(null);
         localStorage.removeItem("token");
     };
+    const register = async (formData) => {
+        try {
+            const response = await fetch("http://localhost:8080/auth/register", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(formData)
+            });
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.message || "Error al registrar usuario.");
+            }
+
+            // Registro exitoso
+            return true;
+        } catch (error) {
+            console.error("Error en registro:", error);
+            throw error;
+        }
+    };
 
     return (
-        <AuthContext.Provider value={{ user, token, login, logout }}>
+        <AuthContext.Provider value={{ user, token, login, logout, register}}>
             {children}
         </AuthContext.Provider>
     );
