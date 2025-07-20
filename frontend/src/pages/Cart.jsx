@@ -4,13 +4,14 @@ import { RiDeleteBin5Line } from "react-icons/ri";
 import CartTotal from "../components/CartTotal.jsx";
 import { useNavigate } from 'react-router-dom';
 import Recommendation from "../components/Recommendation.jsx";
+import {AuthContext} from "../context/AuthContext.jsx";
 
 
 const Cart = () => {
-    const { products, cartItems, updateQuantity, setProducts, setCartItems } = useContext(ShopContext);
+    const { products, cartItems, updateQuantity, setCartItems, fetchProducts } = useContext(ShopContext);
     const [cartData, setCartData] = useState([]);
     const navigate = useNavigate();
-    const { user } = useContext(ShopContext);
+    const {user, token} = useContext(AuthContext);
 
     useEffect(() => {
         const tempData = [];
@@ -33,53 +34,42 @@ const Cart = () => {
         setCartData(tempData);
     }, [cartItems, products]);
 
-    const finalizarCompra = () => {
-        if (!user || !user.nombre) {
+    const finalizarCompra = async () => {
+        if (!user || !token) {
             alert("Debe iniciar sesión para realizar una compra.");
+            console.log(user)
             navigate("/login");
             return;
         }
+
         if (cartData.length === 0) return;
 
-        const nuevoPedido = {
-            cliente: user?.nombre || "Invitado",
-            id: Date.now(), // ID único
-            fecha: new Date().toISOString(),
-            estado: 'Pendiente',
-            productos: cartData.map(item => ({
-                id: item.product.id,
-                nombre: item.product.name,
-                precio: item.product.price,
-                cantidad: item.quantity
-            }))
-        };
+        try {
+            const orderData = {
+                items: cartData.map(item => ({
+                    id: item.product.id.toString(),
+                    quantity: item.quantity
+                }))
+            };
 
-        const pedidosAnteriores = JSON.parse(localStorage.getItem("pedidos")) || [];
-
-        localStorage.setItem("pedidos", JSON.stringify([...pedidosAnteriores, nuevoPedido]));
-
-        // Actualizar stock de los productos comprados
-        const productosActualizados = products.map(product => {
-            const itemComprado = cartData.find(item => item.product.id === product.id);
-            if (itemComprado) {
-                return {
-                ...product,
-                stock: product.stock - itemComprado.quantity,
-                ventas: (product.ventas || 0) + itemComprado.quantity
-                };
+            const response = await fetch("http://localhost:8080/orders/checkout", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`
+                },
+                body: JSON.stringify(orderData)
+            });
+            if (!response.ok) {
+                throw new Error("Error al enviar la orden.");
             }
-            return product;
-        });
-
-        setProducts(productosActualizados);
-
-
-       setCartItems({});
-
-
-
-
-        navigate("/mis-pedidos");
+            setCartItems({});
+            await fetchProducts();
+            navigate("/mis-pedidos");
+        } catch (error) {
+            console.error("Error al finalizar compra:", error);
+            alert("Hubo un problema al procesar tu compra. Intenta de nuevo.");
+        }
     };
 
 

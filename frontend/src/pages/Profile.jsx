@@ -1,9 +1,11 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { ShopContext } from '../context/ShopContext';
 import { useNavigate } from 'react-router-dom';
+import { AuthContext } from '../context/AuthContext';
+
 
 const Profile = () => {
-    const { user, login } = useContext(ShopContext);
+    const { user, login } = useContext(AuthContext);
+
     const navigate = useNavigate();
 
     const [formData, setFormData] = useState({
@@ -15,24 +17,18 @@ const Profile = () => {
     const [notification, setNotification] = useState('');
 
     useEffect(() => {
-        if (user) {
+        if (!user) {
+            navigate('/login');
+        } else {
             setFormData({
-                nombre: user.nombre || '',
-                apellido: user.apellido || '',
+                nombre: user.name || '',
+                apellido: user.lastName || '',
                 email: user.email || '',
-                direccion: user.direccion || ''
+                direccion: user.address || ''
             });
-        } 
-        else {
-            const timer = setTimeout(() => {
-                if (!localStorage.getItem('loggedInUser')) {
-                    navigate('/login');
-                }
-            }, 100); 
-            
-            return () => clearTimeout(timer);
         }
     }, [user, navigate]);
+
 
     const onChangeHandler = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });

@@ -4,12 +4,16 @@ import { assets } from '../assets/assets.js';
 import { FaSearch, FaUserCircle } from "react-icons/fa";
 import { FiShoppingCart } from "react-icons/fi";
 import { ShopContext } from "../context/ShopContext.jsx";
+import { AuthContext } from "../context/AuthContext";
+
 
 const Navbar = () => {
-    const { user, logout, setShowSearch, getCartCount } = useContext(ShopContext);
+    const { user, logout } = useContext(AuthContext);
+    const { setShowSearch, getCartCount } = useContext(ShopContext);
     const location = useLocation();
     const navigate = useNavigate();
-    
+    const token = localStorage.getItem('token');
+
     const [showProfileMenu, setShowProfileMenu] = useState(false);
     const isLoginPage = location.pathname === '/login';
 
@@ -17,8 +21,8 @@ const Navbar = () => {
 
     const handleLogout = () => {
         logout();
-        setShowProfileMenu(false);
         navigate('/');
+        window.location.reload();
     };
 
     useEffect(() => {
@@ -48,7 +52,7 @@ const Navbar = () => {
                     </Link>
                     <Link to="/products" className="relative">Productos</Link>
                     
-                    {user && user.role === 'admin' && (
+                    {user && user.admin && (
                         <Link to="/admin" className="bg-gray-700 text-white px-3 py-1 rounded text-sm hover:bg-gray-800">
                             Admin
                         </Link>
@@ -64,7 +68,7 @@ const Navbar = () => {
                                 <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-xl z-20 border">
                                     <div className="py-1">
                                     <p className="px-4 py-2 text-sm text-gray-700 font-bold border-b">
-                                        ¡Hola, {user.nombre}!
+                                        ¡Hola, {user.name}!
                                     </p>
                                     <Link to="/profile" onClick={() => setShowProfileMenu(false)} className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
                                         Mi Perfil

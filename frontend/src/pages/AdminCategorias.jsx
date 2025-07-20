@@ -1,46 +1,56 @@
 // src/pages/AdminCategorias.jsx
-import React, { useEffect, useState } from 'react';
-import { categories as categoriasOriginales } from '../assets/assets.js';
-
-const LOCAL_KEY = 'categoriasFijas';
+import React, { useEffect, useState, useContext } from "react";
+import axios from "axios";
+import { AuthContext } from "../context/AuthContext.jsx";
 
 const AdminCategorias = () => {
   const [categorias, setCategorias] = useState([]);
-  const [nuevaCategoria, setNuevaCategoria] = useState('');
-  const [ediciones, setEdiciones] = useState({})
+  const [nuevaCategoria, setNuevaCategoria] = useState("");
+  const { token } = useContext(AuthContext);
 
+  // Obtener categorías del backend
   useEffect(() => {
-    const stored = JSON.parse(localStorage.getItem(LOCAL_KEY)) || [];
-    setCategorias(stored);
+    const fetchCategorias = async () => {
+      try {
+        const res = await axios.get("http://localhost:8080/categories");
+        setCategorias(res.data);
+      } catch (err) {
+        console.error("Error al cargar categorías:", err);
+      }
+    };
+    fetchCategorias();
   }, []);
 
-  const guardarCategorias = (nuevas) => {
-    setCategorias(nuevas);
-    localStorage.setItem(LOCAL_KEY, JSON.stringify(nuevas));
+  // Crear nueva categoría
+  const agregarCategoria = async () => {
+    const nombre = nuevaCategoria.trim();
+    if (!nombre || categorias.some(c => c.name.toLowerCase() === nombre.toLowerCase())) return;
+
+    try {
+      const res = await axios.post(
+        "http://localhost:8080/categories",
+        { name: nombre },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      setCategorias([...categorias, res.data]);
+      setNuevaCategoria("");
+    } catch (err) {
+      console.error("Error al crear categoría:", err);
+    }
   };
 
-  const agregarCategoria = () => {
-    const nueva = nuevaCategoria.trim();
-    if (!nueva || categorias.includes(nueva)) return;
-    guardarCategorias([...categorias, nueva]);
-    setNuevaCategoria('');
-  };
-
-  const eliminarCategoria = (nombre) => {
-    const nuevas = categorias.filter(cat => cat !== nombre);
-    guardarCategorias(nuevas);
-  };
-
-  const editarCategoria = (index, nuevoNombre) => {
-    const nuevo = nuevoNombre.trim();
-    if (!nuevo) return;
-    const nuevas = [...categorias];
-    nuevas[index] = nuevo;
-    guardarCategorias(nuevas);
-  };
-
-  const restablecerCategorias = () => {
-    guardarCategorias(categoriasOriginales);
+  // Eliminar categoría
+  const eliminarCategoria = async (id) => {
+    try {
+      await axios.delete(`http://localhost:8080/categories/${id}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      setCategorias(categorias.filter((cat) => cat.id !== id));
+    } catch (err) {
+      console.error("Error al eliminar categoría:", err);
+    }
   };
 
   return (
@@ -54,59 +64,30 @@ const AdminCategorias = () => {
           placeholder="Nueva categoría"
           className="border px-3 py-2 rounded w-full"
         />
-        <button onClick={agregarCategoria} className="bg-blue-600 text-white px-4 py-2 rounded cursor-pointer hover:bg-blue-700">
-          Agregar
+        <button
+          onClick={agregarCategoria}
+          className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 cursor-pointer"
+        >
+          Agregar Categoría
         </button>
       </div>
 
-      <ul className="space-y-2 mb-6">
-        {categorias.map((cat, index) => (
-            <li key={index} className="flex items-center justify-between border p-2 rounded gap-2">
-            <input
-                type="text"
-                value={ediciones[index] ?? cat} // Muestra lo editado o el original
-                onChange={(e) =>
-                setEdiciones((prev) => ({
-                    ...prev,
-                    [index]: e.target.value,
-                }))
-                }
-                className="flex-grow px-2 py-1 border rounded"
-            />
+      <ul className="space-y-2">
+        {categorias.map((cat) => (
+          <li
+            key={cat.id}
+            className="flex items-center justify-between border p-2 rounded"
+          >
+            <span>{cat.name}</span>
             <button
-                onClick={() => {
-                if (ediciones[index]) {
-                    const nuevas = [...categorias];
-                    nuevas[index] = ediciones[index];
-                    setCategorias(nuevas);
-                    setEdiciones((prev) => {
-                    const actualizado = { ...prev };
-                    delete actualizado[index];
-                    return actualizado;
-                    });
-                }
-                }}
-                className="bg-blue-600 text-white px-2 py-1 rounded cursor-pointer hover:bg-blue-700"
+              onClick={() => eliminarCategoria(cat.id)}
+              className="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700 cursor-pointer"
             >
-                Guardar
+              Borrar Categoría
             </button>
-            <button
-                onClick={() => eliminarCategoria(cat)}
-                className="bg-red-600 text-white px-2 py-1 rounded cursor-pointer hover:bg-red-700"
-            >
-                Eliminar
-            </button>
-            </li>
+          </li>
         ))}
-        </ul>
-
-
-      <button
-        onClick={restablecerCategorias}
-        className="bg-gray-700 text-white px-4 py-2 rounded cursor-pointer hover:bg-gray-800"
-      >
-        Restablecer categorías originales
-      </button>
+      </ul>
     </div>
   );
 };
