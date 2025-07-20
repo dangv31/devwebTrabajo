@@ -3,6 +3,8 @@ import { ShopContext } from '../context/ShopContext.jsx';
 
 const ProductInfo = ({ product, showDescription = true, showButton = true }) => {
     const { addToCart } = useContext(ShopContext);
+    const hasDiscount = product.discount > 0 && product.discount < product.price;
+
 
     return (
         <div className="flex flex-col sm:flex-row border border-gray-400 rounded-lg shadow-lg bg-white p-4 sm:gap-6">
@@ -14,13 +16,13 @@ const ProductInfo = ({ product, showDescription = true, showButton = true }) => 
                         <p className="text-sm sm:text-base text-black mb-4">{product.description}</p>
                     )}
                     <div className="flex items-center gap-3 mb-4">
-                        {product.discount && (
+                        {hasDiscount && (
                             <span className="line-through text-gray-500 text-sm">
                                 ${product.price.toLocaleString()}
                             </span>
                         )}
                         <span className="font-bold text-black text-lg">
-                            ${product.price.toLocaleString()}
+                            ${hasDiscount ? product.discount.toLocaleString() : product.price.toLocaleString()}
                         </span>
                         {showButton && (
                             <button onClick={() => addToCart(product.id)} className="bg-black text-white px-4 py-2 text-sm rounded cursor-pointer">
