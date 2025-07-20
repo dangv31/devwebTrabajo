@@ -1,6 +1,7 @@
 import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom'; // Para redirigir al usuario
-import { ShopContext } from '../context/ShopContext.jsx'; // Para acceder al estado de sesión
+import { AuthContext } from '../context/AuthContext.jsx';
+import axios from "axios"; // Para acceder al estado de sesión
 
 const Login = () => {
     const [currentState, setCurrentState] = useState('Iniciar Sesión');
@@ -16,68 +17,45 @@ const Login = () => {
 
     const [notification, setNotification] = useState({ message: '', type: '' });
 
-    const navigate = useNavigate(); 
-    const { login } = useContext(ShopContext); 
+    const navigate = useNavigate();
+    const { login } = useContext(AuthContext);
 
     const onChangeHandler = (event) => {
         const { name, value } = event.target;
         setFormData(prevData => ({ ...prevData, [name]: value }));
     };
 
-    const onSubmitHandler = (event) => {
+    const onSubmitHandler = async (event) => {
         event.preventDefault();
         setNotification({ message: '', type: '' });
 
-        if (currentState === 'Registrarse') {
-            if (formData.password !== formData.confirmPassword) {
-                setNotification({ message: 'Las contraseñas no coinciden.', type: 'error' });
-                return;
-            }
+        try {
+            if (currentState === 'Registrarse') {
+                if (formData.password !== formData.confirmPassword) {
+                    setNotification({ message: 'Las contraseñas no coinciden.', type: 'error' });
+                    return;
+                }
 
-            const users = JSON.parse(localStorage.getItem('users')) || [];
-            const userExists = users.some(user => user.email === formData.email);
+                const response = await axios.post('/auth/register', formData);
 
-            if (userExists) {
-                setNotification({ message: 'El correo electrónico ya está registrado.', type: 'error' });
-                return;
-            }
-
-            const newUser = { ...formData };
-            delete newUser.confirmPassword;
-            users.push(newUser);
-
-            localStorage.setItem('users', JSON.stringify(users));
-            setNotification({ message: '¡Registro exitoso! Ahora puedes iniciar sesión.', type: 'success' });
-            setCurrentState('Iniciar Sesión');
-        }
-
-        else {
-            // Datos simulados del administrador
-            const ADMIN_EMAIL = 'admin@berriondo.com';
-            const ADMIN_PASS = 'admin123';
-
-            if (formData.email === ADMIN_EMAIL && formData.password === ADMIN_PASS) {
-                const adminUser = {
-                    nombre: 'Admin',
-                    email: ADMIN_EMAIL,
-                    role: 'admin' 
-                };
-                login(adminUser); 
-                navigate('/');  
-                return; 
-            }
-
-            const users = JSON.parse(localStorage.getItem('users')) || [];
-            const user = users.find(u => u.email === formData.email);
-
-            if (user && user.password === formData.password) {
-                login(user);   
-                navigate('/'); 
+                if (response.data.success) {
+                    setNotification({ message: '¡Registro exitoso! Ahora puedes iniciar sesión.', type: 'success' });
+                    setCurrentState('Iniciar Sesión');
+                } else {
+                    setNotification({ message: response.data.message, type: 'error' });
+                }
             } else {
-                setNotification({ message: 'Credenciales inválidas. Por favor, inténtalo de nuevo.', type: 'error' });
+                await login({
+                    username: formData.email,
+                    password: formData.password
+                });
+                navigate('/');
             }
+        } catch (error) {
+            setNotification({ message: error.response?.data?.message || 'Error en la conexión.', type: 'error' });
         }
     };
+
 
     return (
         <div className='w-full min-h-screen bg-gray-100 flex items-start justify-center p-4 pt-15'>

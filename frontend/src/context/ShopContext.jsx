@@ -12,26 +12,16 @@ const ShopContextProvider = (props) => {
             try {
                 const response = await fetch("http://localhost:8080/products"); // ← Ajusta URL si usas puerto diferente
                 if (!response.ok) throw new Error("Error en la respuesta del servidor");
-
                 const data = await response.json();
-
-                // Confirmar que data es un array
-                if (Array.isArray(data)) {
-                    console.log("✅ Productos recibidos del backend:", data);
-                    setProducts(data);
-                    localStorage.setItem('productos', JSON.stringify(data));
-                } else {
-                    console.error("⚠️ La respuesta del backend no es un array");
-                }
+                setProducts(data);
+                localStorage.setItem('productos', JSON.stringify(data));
             } catch (error) {
-                console.error("❌ Error al obtener productos:", error);
+                console.error("Error al obtener productos:", error);
             }
         };
 
         fetchProductos();
     }, []);
-
-
 
 
     const[search, setSearch] = useState("");
