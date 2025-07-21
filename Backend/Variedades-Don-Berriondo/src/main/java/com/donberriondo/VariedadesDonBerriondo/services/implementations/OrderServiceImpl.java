@@ -60,6 +60,10 @@ public class OrderServiceImpl implements IOrderService {
                 throw new NoStockException("Stock insuficiente para el producto: " + product.getName());
             }
 
+            if (product.getDiscount() > 0){
+                product.setPrice(product.getDiscount());
+            }
+
             totalAmount += product.getPrice() * item.getQuantity();
             productsToUpdate.put(product.getId(), product);
 
