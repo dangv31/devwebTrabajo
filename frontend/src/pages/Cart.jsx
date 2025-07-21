@@ -93,13 +93,13 @@ const Cart = () => {
                                         <p className="text-xs sm:text-lg font-medium">{item.product.name}</p>
                                         <div className="flex items-center gap-5 mt-2">
                                             <div className="flex flex-col sm:flex-row sm:items-center gap-1">
-                                                {item.product.oldPrice && item.product.oldPrice > item.product.price && (
+                                                {item.product.discount > 0 && item.product.discount < item.product.price && (
                                                     <p className="line-through text-sm text-gray-500">
-                                                        ${item.product.oldPrice.toLocaleString('es-CO')}
+                                                    ${item.product.price.toLocaleString('es-CO')}
                                                     </p>
                                                 )}
                                                 <p className="text-black font-semibold text-sm">
-                                                    ${item.product.price.toLocaleString('es-CO')}
+                                                    ${item.product.discount > 0 && item.product.discount < item.product.price ? item.product.discount.toLocaleString('es-CO') : item.product.price.toLocaleString('es-CO')}
                                                 </p>
                                             </div>
                                         </div>
