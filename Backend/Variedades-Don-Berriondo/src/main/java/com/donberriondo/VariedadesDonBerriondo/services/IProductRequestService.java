@@ -7,4 +7,5 @@ import java.util.List;
 public interface IProductRequestService {
     void createProductRequest(ProductRequestCreateDTO requestDTO);
     List<ProductRequestResponseDTO> getAllProductRequests();
+    void notifyUserAndCompleteRequest(Long requestId);
 }

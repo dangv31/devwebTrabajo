@@ -61,4 +61,10 @@ public class ProductController {
     public ResponseEntity<List<ProductRequestResponseDTO>> getAllRequests() {
         return ResponseEntity.ok(productRequestService.getAllProductRequests());
     }
+
+    @PostMapping("/requests/{id}/notify")
+    public ResponseEntity<Void> notifyUser(@PathVariable Long id) {
+        productRequestService.notifyUserAndCompleteRequest(id);
+        return ResponseEntity.ok().build();
+    }
 }

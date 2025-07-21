@@ -9,6 +9,7 @@ import com.donberriondo.VariedadesDonBerriondo.models.entities.RequestStatusEnum
 import com.donberriondo.VariedadesDonBerriondo.repositories.ProductRepository;
 import com.donberriondo.VariedadesDonBerriondo.repositories.ProductRequestRepository;
 import com.donberriondo.VariedadesDonBerriondo.repositories.UserRepository;
+import com.donberriondo.VariedadesDonBerriondo.services.IEmailService;
 import com.donberriondo.VariedadesDonBerriondo.services.IProductRequestService;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,7 @@ public class ProductRequestServiceImpl implements IProductRequestService {
     @Autowired private ProductRepository productRepository;
     @Autowired private UserRepository userRepository;
     @Autowired private ProductRequestRepository productRequestRepository;
+    @Autowired private IEmailService emailService;
 
     @Override
     @Transactional
@@ -70,5 +72,21 @@ public class ProductRequestServiceImpl implements IProductRequestService {
                         req.getStatus().name()
                 ))
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    @Transactional
+    public void notifyUserAndCompleteRequest(Long requestId) {
+        ProductRequestEntity request = productRequestRepository.findById(requestId)
+                .orElseThrow(() -> new EntityNotFoundException("Solicitud de producto no encontrada con ID: " + requestId));
+
+        String userEmail = request.getUser().getEmail();
+        String userName = request.getUser().getName();
+        String productName = request.getProduct().getName();
+
+        emailService.sendProductAvailableEmail(userEmail, userName, productName);
+
+        request.setStatus(RequestStatusEnum.COMPLETADA);
+        productRequestRepository.save(request);
     }
 }
