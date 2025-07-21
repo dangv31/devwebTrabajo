@@ -19,6 +19,8 @@ WORKDIR /app
 
 COPY --from=build /app/target/Variedades-Don-Berriondo-0.0.1-SNAPSHOT.jar app.jar
 
+COPY uploads ./uploads
+
 EXPOSE 8080
 
 ENTRYPOINT ["java", "-jar", "app.jar"]
