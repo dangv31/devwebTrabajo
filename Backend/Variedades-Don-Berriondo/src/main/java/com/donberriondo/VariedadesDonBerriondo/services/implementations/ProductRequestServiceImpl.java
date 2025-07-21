@@ -1,6 +1,7 @@
 package com.donberriondo.VariedadesDonBerriondo.services.implementations;
 
 import com.donberriondo.VariedadesDonBerriondo.models.dtos.request.ProductRequestCreateDTO;
+import com.donberriondo.VariedadesDonBerriondo.models.dtos.request.ProductRequestNotifyDTO;
 import com.donberriondo.VariedadesDonBerriondo.models.dtos.response.ProductRequestResponseDTO;
 import com.donberriondo.VariedadesDonBerriondo.models.entities.ProductEntity;
 import com.donberriondo.VariedadesDonBerriondo.models.entities.ProductRequestEntity;
@@ -76,13 +77,18 @@ public class ProductRequestServiceImpl implements IProductRequestService {
 
     @Override
     @Transactional
-    public void notifyUserAndCompleteRequest(Long requestId) {
+    public void notifyUserAndCompleteRequest(Long requestId, ProductRequestNotifyDTO notifyDTO) {
         ProductRequestEntity request = productRequestRepository.findById(requestId)
                 .orElseThrow(() -> new EntityNotFoundException("Solicitud de producto no encontrada con ID: " + requestId));
 
+        ProductEntity product = request.getProduct();
+
+        product.setStock(notifyDTO.getNewStock());
+        productRepository.save(product);
+
         String userEmail = request.getUser().getEmail();
         String userName = request.getUser().getName();
-        String productName = request.getProduct().getName();
+        String productName = product.getName();
 
         emailService.sendProductAvailableEmail(userEmail, userName, productName);
 

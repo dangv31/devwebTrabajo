@@ -2,6 +2,7 @@ package com.donberriondo.VariedadesDonBerriondo.controllers;
 
 import com.donberriondo.VariedadesDonBerriondo.models.dtos.request.ProductRequestCreateDTO;
 import com.donberriondo.VariedadesDonBerriondo.models.dtos.request.ProductRequestDTO;
+import com.donberriondo.VariedadesDonBerriondo.models.dtos.request.ProductRequestNotifyDTO;
 import com.donberriondo.VariedadesDonBerriondo.models.dtos.response.ProductRequestResponseDTO;
 import com.donberriondo.VariedadesDonBerriondo.models.dtos.response.ProductResponseDTO;
 import com.donberriondo.VariedadesDonBerriondo.models.entities.ProductEntity;
@@ -63,8 +64,8 @@ public class ProductController {
     }
 
     @PostMapping("/requests/{id}/notify")
-    public ResponseEntity<Void> notifyUser(@PathVariable Long id) {
-        productRequestService.notifyUserAndCompleteRequest(id);
+    public ResponseEntity<Void> notifyUser(@PathVariable Long id, @Valid @RequestBody ProductRequestNotifyDTO notifyDTO) {
+        productRequestService.notifyUserAndCompleteRequest(id, notifyDTO);
         return ResponseEntity.ok().build();
     }
 }
