@@ -1,6 +1,8 @@
 import React, { useContext } from 'react';
 import { ShopContext } from '../context/ShopContext.jsx';
 
+const BASE_URL = "http://localhost:8080";
+
 const ProductInfo = ({ product, showDescription = true, showButton = true }) => {
     const { addToCart } = useContext(ShopContext);
     const hasDiscount = product.discount > 0 && product.discount < product.price;
@@ -35,7 +37,7 @@ const ProductInfo = ({ product, showDescription = true, showButton = true }) => 
             {/* Contenedor de la Imagen (Derecha) */}
             <div className="w-full sm:w-2/5 flex justify-center items-center">
                 <img
-                    src={product.imageRoute}
+                    src={`${BASE_URL}${product.imageRoute}`}
                     alt={product.name}
                     className="w-80 h-80 object-contain"
                 />
