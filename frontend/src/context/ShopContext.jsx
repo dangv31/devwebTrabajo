@@ -154,7 +154,8 @@ const ShopContextProvider = (props) => {
             const quantity = cartItems[itemId];
             const product = products.find(p => p.id === parseInt(itemId));
             if (product) {
-                totalAmount += product.price * quantity;
+                const precioActual = product.discount > 0 ? product.discount : product.price;
+                totalAmount += precioActual * quantity;
             }
         }
         return totalAmount;
@@ -165,13 +166,14 @@ const ShopContextProvider = (props) => {
         for (const productId in cartItems) {
             const quantity = cartItems[productId];
             const product = products.find(p => p.id === parseInt(productId));
-            if (product && product.oldPrice && product.oldPrice > product.price && quantity > 0) {
-                const ahorroPorUnidad = product.oldPrice - product.price;
+            if (product && product.discount > 0 && product.price > product.discount) {
+                const ahorroPorUnidad = product.price - product.discount;
                 savings += ahorroPorUnidad * quantity;
             }
         }
         return savings;
     };
+
 
     const value = {
         products,
