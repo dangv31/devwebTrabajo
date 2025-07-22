@@ -37,7 +37,10 @@ Esto instalará:
 
 3. **Inicia el proyecto:**
 ```bash
+--Dentro de /frontend--
 npm run dev
+--Dentro de /Backend/Variedades-Don-Berriondo--
+docker-compose up --build
 ```
 Abre [http://localhost:5173](http://localhost:5173) en tu navegador.
 
