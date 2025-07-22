@@ -10,4 +10,5 @@ public interface IOrderService {
     OrderConfirmationDTO processOrder(CheckoutRequestDTO checkoutRequest) throws NoStockException;
     List<OrderConfirmationDTO> getAllOrders();
     List<OrderConfirmationDTO> findOrdersByCurrentUser();
+    void markOrderAsDelivered(Long orderId);
 }

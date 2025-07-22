@@ -161,5 +161,14 @@ public class OrderServiceImpl implements IOrderService {
                 itemResponses
         );
     }
+    @Override
+    @Transactional
+    public void markOrderAsDelivered(Long orderId) {
+        OrderEntity order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new EntityNotFoundException("Orden no encontrada con ID: " + orderId));
+
+        order.setStatus("Entregado");
+        orderRepository.save(order);
+    }
 }
 
