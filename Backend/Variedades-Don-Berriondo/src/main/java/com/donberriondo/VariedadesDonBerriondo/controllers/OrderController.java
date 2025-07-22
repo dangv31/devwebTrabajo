@@ -35,4 +35,12 @@ public class OrderController {
         List<OrderConfirmationDTO> orders = orderService.findOrdersByCurrentUser();
         return ResponseEntity.ok(orders);
     }
+
+    @PutMapping("/{orderId}/delivered")
+    public ResponseEntity<Void> markOrderAsDelivered(@PathVariable Long orderId) {
+        // This method would typically call a service to update the order status
+        // For now, we return a 204 No Content response as a placeholder
+        return ResponseEntity.ok().build();
+    }
+
 }
