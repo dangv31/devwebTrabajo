@@ -10,6 +10,7 @@ Antes de iniciar, asegúrate de tener instalado:
 
 - Node.js (v18 o superior) 👉 https://nodejs.org/
 - npm (normalmente ya viene con Node.js)
+- Docker
 
 ---
 
