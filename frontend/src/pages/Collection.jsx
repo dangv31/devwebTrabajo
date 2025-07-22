@@ -33,7 +33,7 @@ const Collection = () => {
         let filtered = products.filter((p) => {
             const matchPrice = p.price <= filters.price.max;
             const matchCategory = filters.categories.size === 0 || filters.categories.has(p.category);
-            const ofertaBerrionda = filters.offers.has("Ofertas Berriondas") ? p.oldPrice != null : true;
+            const ofertaBerrionda = filters.offers.has("Ofertas Berriondas") ? p.discount != 0 : true;
             const matchSearch = search.trim() === "" ||
                 p.name.toLowerCase().includes(search.toLowerCase()) ||
                 p.description.toLowerCase().includes(search.toLowerCase());

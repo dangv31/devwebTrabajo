@@ -10,6 +10,7 @@ Antes de iniciar, asegúrate de tener instalado:
 
 - Node.js (v18 o superior) 👉 https://nodejs.org/
 - npm (normalmente ya viene con Node.js)
+- Docker
 
 ---
 
@@ -21,7 +22,7 @@ git clone https://github.com/tu-usuario/tu-repo.git
 cd tu-repo
 ```
 
-2. **Instala las dependencias:**
+2. **Instala las dependencias dentro de /frontend:**
 ```bash
 npm install
 ```
@@ -37,7 +38,10 @@ Esto instalará:
 
 3. **Inicia el proyecto:**
 ```bash
+--Dentro de /frontend--
 npm run dev
+--Dentro de /Backend/Variedades-Don-Berriondo--
+docker-compose up --build
 ```
 Abre [http://localhost:5173](http://localhost:5173) en tu navegador.
 
