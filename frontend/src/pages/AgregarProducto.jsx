@@ -15,7 +15,7 @@ function AgregarProducto() {
 
   const { id } = useParams();
   const isEdit = Boolean(id);
-  const { products, addProduct, editProduct } = useContext(ShopContext);
+  const { products, addProduct, editProduct, fetchProducts } = useContext(ShopContext);
 
   const [categorias, setCategorias] = useState([]);
 
@@ -273,6 +273,8 @@ const subirImagen = async () => {
 
               if (!res.ok) throw new Error("Error al guardar producto");
 
+              await fetchProducts();
+              
               alert(isEdit ? "Producto editado correctamente" : "Producto agregado correctamente");
               navigate("/admin");
             } catch (err) {
