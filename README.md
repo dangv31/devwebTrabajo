@@ -22,7 +22,7 @@ git clone https://github.com/tu-usuario/tu-repo.git
 cd tu-repo
 ```
 
-2. **Instala las dependencias:**
+2. **Instala las dependencias del frontend:**
 ```bash
 npm install
 ```
