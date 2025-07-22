@@ -1,96 +1,106 @@
-import React, { useEffect, useState } from 'react';
-import { useContext } from 'react';
-import { ShopContext } from '../context/ShopContext.jsx';
-import { products as productsDefault } from '../assets/assets.js'; // Para restaurar valores originales
+import React, { useEffect, useState, useContext } from "react";
+import { AuthContext } from "../context/AuthContext";
 
-
-const VerOrdenes = () => {
+function Pedidos() {
   const [ordenes, setOrdenes] = useState([]);
-  const { setProducts } = useContext(ShopContext);
+  const [error, setError] = useState(null);
+  const { token } = useContext(AuthContext);
 
   useEffect(() => {
-    const ordenesGuardadas = JSON.parse(localStorage.getItem("pedidos")) || [];
-    setOrdenes(ordenesGuardadas);
-  }, []);
+    const obtenerOrdenes = async () => {
+      try {
+        const response = await fetch("http://localhost:8080/orders", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        });
 
-  const colorEstado = (estado) => {
-    switch (estado) {
-      case 'Pendiente':
-        return 'text-yellow-600 font-semibold';
-      case 'Entregado':
-        return 'text-green-600 font-semibold';
-      case 'Cancelado':
-        return 'text-red-600 font-semibold';
-      default:
-        return '';
+        if (!response.ok) {
+          throw new Error("No se pudieron obtener las órdenes");
+        }
+
+        const data = await response.json();
+        setOrdenes(data);
+      } catch (error) {
+        setError("Error al cargar las órdenes");
+        console.error(error);
+      }
+    };
+
+    if (token) {
+      obtenerOrdenes();
+    }
+  }, [token]);
+
+  const confirmarEnvio = async (orderId) => {
+    try {
+      const response = await fetch(`http://localhost:8080/orders/${orderId}/delivered`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error("Error al confirmar envío");
+      }
+
+      // Actualizar estado local (marcar como entregado)
+      setOrdenes((prevOrdenes) =>
+        prevOrdenes.map((orden) =>
+          orden.orderId === orderId ? { ...orden, status: "Entregado" } : orden
+        )
+      );
+    } catch (error) {
+      console.error(error);
+      alert("No se pudo confirmar el envío");
     }
   };
 
-  const ordenesOrdenadas = [...ordenes].sort(
-    (a, b) => new Date(b.fecha) - new Date(a.fecha)
-  );
-
   return (
-    <div className="p-8">
-      <h1 className="text-2xl font-bold mb-6">
-        ¡Bienvenido, mijo! Aquí puede echarle un ojito a las órdenes que han llegado.
-      </h1>
-
-      {ordenes.length > 0 && (
-        <button
-          onClick={() => {
-            localStorage.removeItem("pedidos");
-            setOrdenes([]);
-
-            // Restaurar stock y ventas
-            localStorage.setItem('productos', JSON.stringify(productsDefault));
-            setProducts(productsDefault);
-          }}
-          className="mb-4 bg-red-600 hover:bg-red-700 text-white px-4 py-2 cursor-pointer rounded shadow"
-        >
-          Borrar todas las órdenes
-        </button>
-      )}
-
-      {ordenes.length === 0 ? (
-        <p className="text-gray-600">No hay órdenes todavía.</p>
-      ) : (
-        <div className="overflow-x-auto">
-          <table className="min-w-full border border-gray-300 text-left bg-white shadow">
-            <thead className="bg-gray-200">
-              <tr>
-                <th className="px-4 py-2 border-b"># Orden</th>
-                <th className="px-4 py-2 border-b">Cliente</th>
-                <th className="px-4 py-2 border-b">Productos</th>
-                <th className="px-4 py-2 border-b">Total</th>
-                <th className="px-4 py-2 border-b">Fecha</th>
-                <th className="px-4 py-2 border-b">Estado</th>
-              </tr>
-            </thead>
-            <tbody>
-              {ordenesOrdenadas.map((orden) => (
-                <tr key={orden.id}>
-                  <td>{orden.id}</td>
-                  <td>{orden.cliente || "Invitado"}</td>
-                  <td>{orden.productos.map(p => p.nombre).join(', ')}</td>
-                  <td>${orden.productos.reduce((acc, p) => acc + p.precio * p.cantidad, 0).toLocaleString()}</td>
-                  <td>{new Date(orden.fecha).toLocaleDateString('es-CO', {
-                        year: 'numeric',
-                        month: 'short',
-                        day: 'numeric',
-                        hour: '2-digit',
-                        minute: '2-digit',
-                      })
-                      }</td>
-                  <td className={colorEstado(orden.estado)}>{orden.estado}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      )}
+    <div className="p-4">
+      <h1 className="text-2xl font-bold mb-4">Pedidos</h1>
+      {error && <p className="text-red-500 mb-4">{error}</p>}
+      {ordenes.length === 0 && !error && <p>No hay pedidos.</p>}
+      <ul>
+        {ordenes.map((orden) => (
+          <li
+            key={orden.orderId}
+            className="border p-4 mb-4 rounded shadow bg-white"
+          >
+            <p><strong>ID:</strong> {orden.orderId}</p>
+            <p><strong>Fecha:</strong> {orden.orderDate}</p>
+            <p><strong>Estado:</strong> {orden.status}</p>
+            <p>
+              <strong>Productos:</strong>{" "}
+              {Array.isArray(orden.items) && orden.items.length > 0 ? (
+                orden.items.map((item, index) => (
+                  <span key={index}>
+                    {item.productName} x{item.quantity}
+                    {index < orden.items.length - 1 ? ", " : ""}
+                  </span>
+                ))
+              ) : (
+                <span>No hay productos</span>
+              )}
+            </p>
+            <p><strong>Total:</strong> ${orden.totalAmount}</p>
+            {orden.status === "Pendiente" && (
+              <button
+                onClick={() => confirmarEnvio(orden.orderId)}
+                className="mt-2 bg-green-600 hover:bg-green-700 text-white py-1 px-3 rounded"
+              >
+                Confirmar envío
+              </button>
+            )}
+          </li>
+        ))}
+      </ul>
     </div>
   );
-};
+}
 
-export default VerOrdenes;
+export default Pedidos;

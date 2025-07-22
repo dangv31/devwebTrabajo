@@ -16,6 +16,7 @@ import Admin from './pages/Admin';
 import AgregarProducto from './pages/AgregarProducto';
 import VerProductos from './pages/VerProductos';
 import AdminCategorias from "./pages/AdminCategorias.jsx";
+import SolicitudesEspeciales from './pages/SolicitudesEspeciales.jsx';
 import Collection from "./pages/Collection.jsx";
 import SearchBar from "./components/SearchBar.jsx";
 import AdminRoute from './components/AdminRoute.jsx';
@@ -47,6 +48,7 @@ const App = () => {
                         <Route path="/admin/productos" element={<VerProductos />} />
                         <Route path="/admin/ordenes" element={<VerOrdenes />} />
                         <Route path="/admin/categorias" element={<AdminCategorias />} />
+                        <Route path="/admin/solicitudes" element={<SolicitudesEspeciales />} />
                     </Route>
                 </Routes>
             </div>

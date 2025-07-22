@@ -5,7 +5,6 @@ import { assets } from '../assets/assets.js';
 import { ShopContext } from "../context/ShopContext.jsx";
 
 function Admin() {
-  const { resetProducts } = useContext(ShopContext);
   const [ordenesRecientes, setOrdenesRecientes] = useState([]);
 
   useEffect(() => {
@@ -88,12 +87,12 @@ function Admin() {
           </button>
         </Link>
 
-        <button
-          onClick={resetProducts}
-          className="bg-red-400 text-white px-4 py-2 rounded hover:bg-red-700 cursor-pointer"
-        >
-          Restaurar Productos Originales
-        </button>
+        <Link to="/admin/solicitudes">
+          <button className="flex items-center gap-2 bg-[#A47551] text-white px-4 py-2 cursor-pointer rounded hover:bg-[#916546]">
+            <FaClipboardList className="text-white" /> Ver Solicitudes Especiales
+          </button>
+        </Link>
+
       </div>
     </div>
   );
