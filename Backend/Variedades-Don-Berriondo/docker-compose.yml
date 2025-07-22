@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   db:
-    image: mysql:8.0
+    image: mysql
     container_name: mysql-don-berriondo
     restart: always
     environment:
@@ -25,16 +25,13 @@ services:
     ports:
       - "8080:8080"
     environment:
-      # Variables de Base de Datos
       SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/variedades-don-berriondo?createDatabaseIfNotExist=true
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: '12345678'
 
-      # Variables de Seguridad JWT
       SECURITY_JWT_KEY_PRIVATE: 'CLAVEMUYSEGURA'
       SECURITY_JWT_USER_GENERATOR: 'VariedadesDonBerriondoApp'
 
-      # ✅ NUEVAS VARIABLES: Configuración de Correo
       SPRING_MAIL_HOST: 'smtp.gmail.com'
       SPRING_MAIL_PORT: '587'
       SPRING_MAIL_USERNAME: 'suspensive3@gmail.com'
@@ -44,11 +41,9 @@ services:
     networks:
       - berriondo-net
 
-# Definición de los volúmenes
 volumes:
   db_data:
 
-# Definición de las redes
 networks:
   berriondo-net:
     driver: bridge
