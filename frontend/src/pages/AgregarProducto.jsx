@@ -8,6 +8,7 @@ import { AuthContext } from "../context/AuthContext";
 
 
 function AgregarProducto() {
+  const [imagenFile, setImagenFile] = useState(null); // archivo real para subir
   const { token } = useContext(AuthContext);
 
   const navigate = useNavigate();
@@ -41,32 +42,69 @@ function AgregarProducto() {
     if (productoAEditar) {
       setNombre(productoAEditar.name);
       setStock(productoAEditar.stock);
-      setCategoria(productoAEditar.category);
+      setCategoria(productoAEditar.categoryName);
       setDescripcion(productoAEditar.description || '');
-      setImagen(productoAEditar.image?.[0] || null);
+      setImagen(productoAEditar.imageRoute); // ✅ Cargar imagen desde URL
 
-      if (productoAEditar.oldPrice != null) {
+      if (productoAEditar.discount != 0) {
         setTieneDescuento(true);
-        setPrecio(productoAEditar.oldPrice);       // precio original
-        setPrecioDescuento(productoAEditar.price);       // con descuento
+        setPrecio(productoAEditar.price);
+        setPrecioDescuento(productoAEditar.discount);
       } else {
         setTieneDescuento(false);
-        setPrecio(productoAEditar.price);          // único precio
+        setPrecio(productoAEditar.price);
         setPrecioDescuento('');
       }
     }
   }
 }, [isEdit, id, products]);
 
+const subirImagen = async () => {
+  if (!imagenFile) return null;
+
+  const formData = new FormData();
+  formData.append("file", imagenFile);
+
+  const res = await fetch("http://localhost:8080/files/upload", {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+    body: formData,
+  });
+
+  if (!res.ok) throw new Error("Error al subir imagen");
+  const data = await res.json();
+  return data.fileUrl; // URL absoluta
+};
+
+
 
   const handleImagenSeleccionada = (e) => {
     const file = e.target.files[0];
     if (file) {
-      setImagen(URL.createObjectURL(file));
+      setImagenFile(file); // Guardamos el archivo real
+      setImagen(URL.createObjectURL(file)); // Vista previa
+    }
+  };
+
+  const getFullImageUrl = (imageRoute) => {
+    const baseUrl = "http://localhost:8080";
+    if (!imageRoute) return "";
+
+    // 👉 No modificar si es una URL completa o un blob
+    if (
+      imageRoute.startsWith("http://") ||
+      imageRoute.startsWith("https://") ||
+      imageRoute.startsWith("blob:")
+    ) {
+      return imageRoute;
     }
 
-
+    // 👉 Si es una ruta relativa, prepender la base URL
+    return `${baseUrl}${imageRoute}`;
   };
+
 
   return (
     <div className="p-8">
@@ -79,7 +117,7 @@ function AgregarProducto() {
         <div className="flex flex-col items-center gap-2">
           <div className="w-40 h-40 border border-gray-300 bg-white flex items-center justify-center rounded">
             {imagen ? (
-              <img src={imagen} alt="Producto" className="w-full h-full object-cover rounded" />
+              <img src={getFullImageUrl(imagen)} alt="producto" className="max-w-full max-h-full object-contain" />
             ) : (
               <span className="text-2xl text-gray-400">❌</span>
             )}
@@ -194,80 +232,55 @@ function AgregarProducto() {
           Cancelar
         </button>
         <button
-          onClick={() => {
-            if (isEdit) {
-                const productoParaEditar = {
-                  name: nombre,
-                  description: descripcion,
-                  price: Number(precio),
-                  discount: tieneDescuento ? Number(precioDescuento) : 0,
-                  imageRoute: "/images/products/imagen_ejemplo.jpg", // Cambiar cuando subas imágenes reales
-                  categoryName: categoria,
-                  bestSeller: false,
-                  stock: Number(stock),
-                };
+          onClick={async () => {
+            if (!nombre || !precio || !categoria || !stock) {
+              alert("Por favor complete todos los campos obligatorios.");
+              return;
+            }
 
-                fetch(`http://localhost:8080/products/${id}`, {
-                  method: "PUT",
-                  headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${token}`,
-                  },
-                  body: JSON.stringify(productoParaEditar),
-                })
-                  .then((res) => {
-                    if (!res.ok) throw new Error("Error al editar el producto");
-                    return res.json();
-                  })
-                  .then(() => {
-                    alert("Producto editado correctamente");
-                    navigate("/admin");
-                  })
-                  .catch((err) => {
-                    console.error(err);
-                    alert("Hubo un problema al editar el producto");
-                  });
+            try {
+              let imageUrlFinal = imagen; // si es edición y no se cambió la imagen
 
-            } else {
-              if (!nombre || !precio || !categoria || !stock) {
-                alert("Por favor complete todos los campos obligatorios.");
-                return;
+              if (imagenFile) {
+                imageUrlFinal = await subirImagen(); // Subimos imagen nueva
               }
 
-              const productoParaEnviar = {
+              const body = {
                 name: nombre,
                 description: descripcion,
                 price: Number(precio),
                 discount: tieneDescuento ? Number(precioDescuento) : 0,
-                imageRoute: "/images/products/imagen_ejemplo.jpg", // Ajusta esto si subes imágenes
+                imageRoute: imageUrlFinal, // ✅ guardamos el link recibido
                 categoryName: categoria,
                 bestSeller: false,
-                stock: Number(stock)
+                stock: Number(stock),
               };
 
-              fetch("http://localhost:8080/products", {
-                method: "POST",
+              const url = isEdit
+                ? `http://localhost:8080/products/${id}`
+                : "http://localhost:8080/products";
+
+              const method = isEdit ? "PUT" : "POST";
+
+              const res = await fetch(url, {
+                method,
                 headers: {
                   "Content-Type": "application/json",
                   Authorization: `Bearer ${token}`,
                 },
-                body: JSON.stringify(productoParaEnviar)
-              })
-                .then(res => {
-                  if (!res.ok) throw new Error("Error al agregar el producto");
-                  return res.json();
-                })
-                .then(() => {
-                  alert("Producto agregado correctamente");
-                  navigate("/admin");
-                })
-                .catch(err => {
-                  console.error(err);
-                  alert("Hubo un problema al agregar el producto");
-                });
+                body: JSON.stringify(body),
+              });
+
+              if (!res.ok) throw new Error("Error al guardar producto");
+
+              alert(isEdit ? "Producto editado correctamente" : "Producto agregado correctamente");
+              navigate("/admin");
+            } catch (err) {
+              console.error(err);
+              alert("Hubo un problema al guardar el producto");
             }
-            }
-          }
+          }}
+
           className="bg-[#D4A017] text-white px-4 py-2 rounded cursor-pointer hover:bg-[#B48C14]"
         >
           {isEdit ? 'Guardar Cambios' : 'Agregar Producto'}
