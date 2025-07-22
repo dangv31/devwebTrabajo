@@ -38,8 +38,8 @@ public class OrderController {
 
     @PutMapping("/{orderId}/delivered")
     public ResponseEntity<Void> markOrderAsDelivered(@PathVariable Long orderId) {
-        // This method would typically call a service to update the order status
-        // For now, we return a 204 No Content response as a placeholder
+        System.out.println("Marking order " + orderId + " as delivered");
+        orderService.markOrderAsDelivered(orderId);
         return ResponseEntity.ok().build();
     }
 
